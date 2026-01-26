@@ -55,6 +55,7 @@ public class Player : MonoBehaviour
     private void HandleMovement()
     {
         float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
 
         if (x != 0)
         {
