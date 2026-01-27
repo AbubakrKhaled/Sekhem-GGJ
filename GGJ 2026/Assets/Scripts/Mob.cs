@@ -3,6 +3,8 @@ using UnityEngine;
 // inherits from enemies, so it has access to health, speed, damage, etc
 public abstract class Mob : Enemies 
 {
+    [Header("Spawner Settings")]
+    public int spawnWeight = 10;
     // timer to track when we last attacked
     private float lastAttackTime;
     
