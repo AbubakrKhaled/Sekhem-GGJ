@@ -13,52 +13,58 @@ public class Player : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Transform Tr;
     [HideInInspector] public SpriteRenderer spr;
-    [HideInInspector] public Animator anim;
+    //[HideInInspector] public Animator anim;
 
     // === Movement ===
     [Header("Movement")]
-    public int speed = 5;
-    //[HideInInspector] public Vector3 startpos;
+    float speed = 5;
     float dashSpeed = 10f;
-    float dashDuration = 0.5f;
+    float dashDuration = 0.4f;
     float dashCooldown = 5f;
-    float lastDashTime;
+    float lastDashTime = -10f;
+
     float currentSpeed;
-    Vector2 lastMoveDir = Vector2.right;
+    Vector2 lastMoveDir;
+    private Vector2 currentInputDir;
 
 
     // === State ===
     [HideInInspector] public bool isInvulnerable;
     [HideInInspector] public bool canAttack = true;
     [HideInInspector] public bool isKnockedBack;
+    bool isDashing = false;
 
 
     // === Jumping ===
     [Header("Jumping")]
     public int jump = 7;
     private bool isGrounded;
+    public LayerMask groundLayer;
+    public float groundCheckDistance = 0.1f;
+    public Transform groundCheckPoint;
 
     // === Animations ===
     //[Header("Animations")]
-    bool isDashing = false;
 
     // === Scripts ===
     [Header("Scripts")]
     BaseMask mask;
 
+    // === Level Map ===
+    private LevelMap map;
+    private Vector2 facingDir = Vector2.right;
+
 
     void Start()
     {
-        //gameObject.tag = "MainPlayer";
-
         rb = GetComponent<Rigidbody2D>();
         Tr = GetComponent<Transform>();
         spr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
 
-        // Position
-        //startpos = Tr.position;
         currentSpeed = speed;
+
+        map = LevelMap.Instance;
 
         StartCoroutine(Blink());
         ApplyMask(GameSession.SelectedMask);
@@ -87,55 +93,111 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (isKnockedBack) return;
+
+        CheckGrounded();
+
         HandleMovement();
         HandleJump();
         HandleDash();
         HandleAttacks();
+        HandleDrop();
 
-        anim.SetBool("isGrounded", isGrounded);
+        /*if (anim != null)
+        {
+            anim.SetBool("isGrounded", isGrounded);
+        }*/
     }
 
-    private void HandleMovement()
+    void HandleMovement()
     {
         if (isDashing) return;
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
-        Vector2 move = new Vector2(x, y);
+        float isoX = x + y;
+        float isoY = y - x;
+        Vector2 move = new Vector2(isoX, isoY);
 
-        // Store last movement direction for dash & knockback recovery
         if (move.sqrMagnitude > 0.01f)
         {
-            lastMoveDir = move.normalized;
+            move = move.normalized;
+
+            // Track facing direction
+            facingDir = new Vector2(
+                Mathf.RoundToInt(isoX),
+                Mathf.RoundToInt(isoY)
+            );
+
+            // Check ledge - auto drop
+            if (map != null && map.IsAtLedge(transform.position, facingDir))
+            {
+                transform.position = map.GetPosBelow(transform.position);
+                return;
+            }
         }
+
+        rb.linearVelocity = new Vector3(
+            move.x * speed,
+            move.y * speed
+        );
 
         if (move.x != 0)
-        {
             spr.flipX = move.x < 0;
-        }
 
-        rb.linearVelocity = move * currentSpeed;
-
-        anim.SetFloat("Speed", move.sqrMagnitude);
+        /*if (anim != null)
+            anim.SetFloat("Speed", move.sqrMagnitude);*/
     }
 
-    private void HandleJump()
+    void HandleJump()
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, jump);
+            if (map != null && map.CanJumpUp(transform.position))
+            {
+                transform.position = map.GetPosAbove(transform.position);
+            }
         }
     }
 
-    private void HandleDash()
+    void HandleDash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Time.time > lastDashTime + dashCooldown)
+            if (Time.time < lastDashTime + dashCooldown) return;
+            lastDashTime = Time.time;
+
+            if (map == null) return;
+
+            Vector3? target = map.CanDashAcross(transform.position, facingDir);
+
+            if (target.HasValue)
             {
-                lastDashTime = Time.time;
-                StartCoroutine(Dash());
+                // Can dash - gap is 3 or less
+                transform.position = target.Value;
+            }
+            else
+            {
+                // Can't dash - drop down
+                Vector3Int grid = map.GetGrid(transform.position);
+                if (grid.z > 0)
+                {
+                    transform.position = map.GetPosBelow(transform.position);
+                }
+            }
+        }
+    }
+
+    void HandleDrop()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (map == null) return;
+
+            Vector3Int grid = map.GetGrid(transform.position);
+            if (grid.z > 0)
+            {
+                transform.position = map.GetPosBelow(transform.position);
             }
         }
     }
@@ -154,20 +216,17 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    // === Collisions ===
-    void OnCollisionStay2D(Collision2D collision)
+    private void CheckGrounded()
     {
-        if (collision.contacts[0].normal.y > 0.5f)
-        {
-            isGrounded = true;
-        }
+        // Raycast downward to detect ground
+        RaycastHit2D hit = Physics2D.Raycast(
+            groundCheckPoint.position,
+            Vector2.down,
+            groundCheckDistance,
+            groundLayer
+        );
 
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        isGrounded = false;
+        isGrounded = hit.collider != null;
     }
 
 
@@ -175,13 +234,21 @@ public class Player : MonoBehaviour
     IEnumerator Dash()
     {
         isDashing = true;
-        currentSpeed = dashSpeed;
         isInvulnerable = true;
+
+        Vector2 dashDir = lastMoveDir;
+        if (dashDir.sqrMagnitude < 0.1f)
+        {
+            dashDir = spr.flipX ? Vector2.left : Vector2.right;
+        }
+        dashDir = dashDir.normalized;
+
+        // Apply dash velocity (preserve some Y for mid-air dashes)
+        rb.linearVelocity = new Vector2(dashDir.x * dashSpeed, rb.linearVelocity.y * 0.5f);
 
         yield return new WaitForSeconds(dashDuration);
 
         isInvulnerable = false;
-        currentSpeed = speed;
         isDashing = false;
     }
 
