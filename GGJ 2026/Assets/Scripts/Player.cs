@@ -109,8 +109,7 @@ public class Player : MonoBehaviour
             // Check ledge - auto drop
             if (map != null && currentFloor > 0)
             {
-                Vector3 checkPos = new Vector3(transform.position.x, transform.position.y, currentFloor * map.floorHeight);
-                if (map.IsAtLedge(checkPos, facingDir))
+                if (map.IsAtLedge(currentFloor, transform.position, facingDir))
                 {
                     currentFloor--;
                     Debug.Log("Dropped to floor: " + currentFloor);
@@ -136,9 +135,7 @@ public class Player : MonoBehaviour
         {
             if (map == null) return;
 
-            Vector3 checkPos = new Vector3(transform.position.x, transform.position.y, currentFloor * map.floorHeight);
-
-            if (map.CanJumpUp(checkPos))
+            if (map.CanJumpUp(currentFloor, transform.position))
             {
                 currentFloor++;
                 Debug.Log("Jumped to floor: " + currentFloor);
@@ -156,8 +153,7 @@ public class Player : MonoBehaviour
 
             if (map == null) return;
 
-            Vector3 checkPos = new Vector3(transform.position.x, transform.position.y, currentFloor * map.floorHeight);
-            Vector3? target = map.CanDashAcross(checkPos, facingDir);
+            Vector3? target = map.CanDashAcross(currentFloor, transform.position, facingDir);
 
             if (target.HasValue)
             {

@@ -1,3 +1,4 @@
+using UnityEngine.Tilemaps;
 using UnityEngine;
 
 public class LevelMap : MonoBehaviour
@@ -8,16 +9,18 @@ public class LevelMap : MonoBehaviour
         3D Array: map[floor, y, x]
         
         floor = height level (0 = ground, 1 = mid, 2 = top)
-        y = vertical on screen (isometric depth)
-        x = horizontal on screen
+        y = grid Y (isometric)
+        x = grid X (isometric)
         
-        1 = solid ground (can stand)
-        0 = empty (air/gap)
+        1 = solid ground
+        0 = empty
+        
+        Size: 12x12 tiles, 3 floors
     */
-    public int[,,] map = new int[3, 16, 16];
+    public int[,,] map = new int[3, 12, 12];  // Fixed to 12x12
 
-    public float tileSize = 5f;      // World units per tile
-    public float floorHeight = 1f;   // World Z per floor
+    [Header("Tilemap Reference")]
+    public Tilemap groundTilemap;  // Drag your ground tilemap here
 
     void Awake()
     {
@@ -27,8 +30,7 @@ public class LevelMap : MonoBehaviour
 
     void BuildMap()
     {
-        // Check which game level we're in
-        int gameLevel = GameTracker.currentLevel; // or SceneManager.GetActiveScene().buildIndex
+        int gameLevel = GameTracker.currentLevel;
 
         switch (gameLevel)
         {
@@ -38,6 +40,7 @@ public class LevelMap : MonoBehaviour
             default: BuildLevel1(); break;
         }
     }
+
 
     void BuildLevel1()
     {
@@ -102,6 +105,9 @@ public class LevelMap : MonoBehaviour
         LoadFloor(2, floor2);
 
     }
+
+    // ===== HELPERS =====
+
     void FillFloor(int floor, int value)
     {
         for (int y = 0; y < 12; y++)
@@ -124,12 +130,6 @@ public class LevelMap : MonoBehaviour
         }
     }
 
-
-    // ===== CORE HELPERS =====
-
-    /// <summary>
-    /// Check if coordinates are within map bounds
-    /// </summary>
     bool InBounds(int floor, int x, int y)
     {
         return floor >= 0 && floor < 3 &&
@@ -143,40 +143,50 @@ public class LevelMap : MonoBehaviour
         return map[floor, y, x] == 1;
     }
 
-    public Vector3Int GetGrid(Vector3 worldPos)
+    // ===== GRID CONVERSION (Uses Tilemap!) =====
+
+    /// <summary>
+    /// Convert world position to grid coordinates
+    /// Uses Tilemap.WorldToCell - no manual math!
+    /// </summary>
+    public Vector2Int GetGrid(Vector3 worldPos)
     {
-        int x = Mathf.FloorToInt(worldPos.x / tileSize);
-        int y = Mathf.FloorToInt(worldPos.y / tileSize);
-        int z = Mathf.RoundToInt(worldPos.z / floorHeight);
+        Vector3Int cell = groundTilemap.WorldToCell(worldPos);
 
-        x = Mathf.Clamp(x, 0, 11);  // 0-11 for 12 tiles
-        y = Mathf.Clamp(y, 0, 11);
-        z = Mathf.Clamp(z, 0, 2);
+        int x = Mathf.Clamp(cell.x, 0, 11);
+        int y = Mathf.Clamp(cell.y, 0, 11);
 
-        return new Vector3Int(x, y, z);
+        return new Vector2Int(x, y);
     }
 
-    public Vector3 GetWorld(int floor, int x, int y)
+    /// <summary>
+    /// Convert grid coordinates to world position
+    /// Uses Tilemap.GetCellCenterWorld - no manual math!
+    /// </summary>
+    public Vector3 GetWorld(int x, int y)
     {
-        return new Vector3(
-            (x + 0.5f) * tileSize,  // Center of tile
-            (y + 0.5f) * tileSize,
-            floor * floorHeight
-        );
+        return groundTilemap.GetCellCenterWorld(new Vector3Int(x, y, 0));
     }
 
-    // ===== PLAYER ACTIONS =====
+    // ===== PLAYER ACTIONS (floor passed explicitly) =====
 
-    public bool CanJumpUp(Vector3 pos)
+    /// <summary>
+    /// SPACE: Can jump up? (tile above must be solid)
+    /// </summary>
+    public bool CanJumpUp(int floor, Vector3 worldPos)
     {
-        Vector3Int grid = GetGrid(pos);
-        if (grid.z >= 2) return false;
-        return HasGround(grid.z + 1, grid.x, grid.y);
+        if (floor >= 2) return false;  // Already at top
+
+        Vector2Int grid = GetGrid(worldPos);
+        return HasGround(floor + 1, grid.x, grid.y);
     }
 
-    public Vector3? CanDashAcross(Vector3 pos, Vector2 dir)
+    /// <summary>
+    /// SHIFT: Can dash across? (max 3 empty tiles, same floor)
+    /// </summary>
+    public Vector3? CanDashAcross(int floor, Vector3 worldPos, Vector2 dir)
     {
-        Vector3Int grid = GetGrid(pos);
+        Vector2Int grid = GetGrid(worldPos);
 
         int stepX = Mathf.RoundToInt(dir.x);
         int stepY = Mathf.RoundToInt(dir.y);
@@ -192,11 +202,11 @@ public class LevelMap : MonoBehaviour
             checkX += stepX;
             checkY += stepY;
 
-            if (!InBounds(grid.z, checkX, checkY)) return null;
+            if (!InBounds(floor, checkX, checkY)) return null;
 
-            if (HasGround(grid.z, checkX, checkY))
+            if (HasGround(floor, checkX, checkY))
             {
-                return emptyCount <= 3 ? GetWorld(grid.z, checkX, checkY) : null;
+                return emptyCount <= 3 ? GetWorld(checkX, checkY) : null;
             }
 
             emptyCount++;
@@ -205,26 +215,29 @@ public class LevelMap : MonoBehaviour
         return null;
     }
 
-    public bool IsAtLedge(Vector3 pos, Vector2 dir)
+    /// <summary>
+    /// Walking: About to walk off edge?
+    /// </summary>
+    public bool IsAtLedge(int floor, Vector3 worldPos, Vector2 dir)
     {
-        Vector3Int grid = GetGrid(pos);
-        if (grid.z == 0) return false;
+        if (floor == 0) return false;  // Can't fall below floor 0
+
+        Vector2Int grid = GetGrid(worldPos);
 
         int nextX = grid.x + Mathf.RoundToInt(dir.x);
         int nextY = grid.y + Mathf.RoundToInt(dir.y);
 
-        return !HasGround(grid.z, nextX, nextY);
+        return !HasGround(floor, nextX, nextY);
     }
 
-    public Vector3 GetPosBelow(Vector3 pos)
+    /// <summary>
+    /// Get world position at same grid cell (for floor changes)
+    /// </summary>
+    public Vector3 GetCurrentCellWorld(Vector3 worldPos)
     {
-        Vector3Int grid = GetGrid(pos);
-        return GetWorld(Mathf.Max(0, grid.z - 1), grid.x, grid.y);
-    }
-
-    public Vector3 GetPosAbove(Vector3 pos)
-    {
-        Vector3Int grid = GetGrid(pos);
-        return GetWorld(Mathf.Min(2, grid.z + 1), grid.x, grid.y);
+        Vector2Int grid = GetGrid(worldPos);
+        return GetWorld(grid.x, grid.y);
     }
 }
+
+
