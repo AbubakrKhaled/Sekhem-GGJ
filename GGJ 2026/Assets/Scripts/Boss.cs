@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI // to talk to slider component
+using UnityEngine.UI; // to talk to slider component
 
 public class Boss : Enemies
 {
@@ -9,20 +9,20 @@ public class Boss : Enemies
 
     public override void Start()
     {
-        base.Start() // to run normal enemy math first
+        base.Start(); // to run normal enemy math first
 
         //1. find the health bar object by name
         // so u dont drag it everytimne
         GameObject uiObj = GameObject.Find("BossHealthBar");
 
-        if (uiOBJ != null)
+        if (uiObj != null)
         {
-            healthBar = uiObj.GetComponent<Slider>();
+            healthbar = uiObj.GetComponent<Slider>();
             // 2. set max value to match the boss total health
-            healthBar.maxValue = currentHealth;
+            healthbar.maxValue = currentHealth;
 
             // 3. set current value to full
-            healthBar.value = currentHealth;
+            healthbar.value = currentHealth;
             
             // 4. make sure the bar is visible 
             healthbar.gameObject.SetActive(true);
@@ -41,18 +41,18 @@ public class Boss : Enemies
         base.TakeDamage(amount, knockbackForce, knockbackDir);
 
         // 2. update the health bar visual
-        if (healthBar != null)
+        if (healthbar != null)
         {
-            healthBar.value = currentHealth;
+            healthbar.value = currentHealth;
         }
     }
 
     public override void Die()
     {
         // hide the bar so it doesn't stay on screen after the boss dies
-        if (healthBar != null)
+        if (healthbar != null)
         {
-            healthBar.gameObject.SetActive(false);
+            healthbar.gameObject.SetActive(false);
         }
         
         base.Die();
