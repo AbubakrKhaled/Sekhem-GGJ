@@ -17,6 +17,10 @@ public class Audiomanager : MonoBehaviour
     public AudioClip footsteps2;
     public AudioClip jump;
     public AudioClip dash;
+    public AudioClip playerhurt1;
+    public AudioClip playerhurt2;
+    public AudioClip enemyhurt1;
+    public AudioClip enemyhurt2;
 
     void Awake()
     {
