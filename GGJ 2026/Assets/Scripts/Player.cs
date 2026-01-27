@@ -74,6 +74,13 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
         }
+        MeleeMask testMask2 = GetComponent<MeleeMask>(); // Check for Melee first
+        if (testMask != null)
+        {
+            mask = testMask2;
+            mask.enabled = true;
+            Debug.Log("TEST MODE: Melee Mask Forced ON.");
+        }
     }
 
     void Update()
@@ -203,10 +210,7 @@ public class Player : MonoBehaviour
         {
             mask.CastPrimary();
         }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            mask.CastSecondary();
-        }
+
     }
 
 

@@ -57,15 +57,6 @@ public class MageMask : BaseMask
         }
     }
 
-    public override void CastSecondary()
-    {
-        switch (maskLevel)
-        {
-            case 1: EarthPush(); break;
-            case 2: MudPool(); break;
-            case 3: FlameBurst(); break;
-        }
-    }
 
     protected override void OnMaskUpgraded()
     {

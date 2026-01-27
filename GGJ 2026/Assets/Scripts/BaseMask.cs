@@ -48,5 +48,5 @@ public abstract class BaseMask : MonoBehaviour
 
 
     public abstract void CastPrimary();
-    public abstract void CastSecondary();
+    
 }
