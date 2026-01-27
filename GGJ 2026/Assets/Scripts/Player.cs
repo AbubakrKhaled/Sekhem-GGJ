@@ -14,8 +14,8 @@ public class Player : MonoBehaviour
     // === Movement ===
     [Header("Movement")]
     public int speed = 5;
-    float dashSpeed = 10f;
-    float dashDuration = 0.5f;
+    //float dashSpeed = 10f;
+    //float dashDuration = 0.5f;
     float dashCooldown = 5f;
     float lastDashTime;
     float currentSpeed;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     // === Jumping ===
     [Header("Jumping")]
     public int jump = 7;
-    private bool isGrounded;
+    //private bool isGrounded;
 
     // === Animations ===
     bool isDashing = false;
@@ -37,6 +37,12 @@ public class Player : MonoBehaviour
     // === Scripts ===
     [Header("Scripts")]
     BaseMask mask;
+
+    // === Level Map ===
+    private LevelMap map;
+    private Vector2 facingDir = Vector2.right;
+    private int currentFloor = 0;
+
 
     void Start()
     {
@@ -47,6 +53,13 @@ public class Player : MonoBehaviour
         currentSpeed = speed;
 
         StartCoroutine(Blink());
+
+        map = LevelMap.Instance;
+
+        if (map != null)
+        {
+            currentFloor = 0;
+        }
 
         // --- TEST MODE FIX ---
         // Instead of asking GameSession (which is empty), we FORCE the Mage Mask.
@@ -70,6 +83,7 @@ public class Player : MonoBehaviour
         HandleJump();
         HandleDash();
         HandleAttacks();
+        HandleDrop();
     }
 
     private void HandleMovement()
@@ -79,37 +93,96 @@ public class Player : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
-        Vector2 move = new Vector2(x, y);
+        float isoX = x + y;
+        float isoY = y - x;
+        Vector2 move = new Vector2(isoX, isoY);
 
         if (move.sqrMagnitude > 0.01f)
         {
-            lastMoveDir = move.normalized;
+            move = move.normalized;
+
+            facingDir = new Vector2(
+                Mathf.RoundToInt(isoX),
+                Mathf.RoundToInt(isoY)
+            );
+
+            // Check ledge - auto drop
+            if (map != null && currentFloor > 0)
+            {
+                if (map.IsAtLedge(currentFloor, transform.position, facingDir))
+                {
+                    currentFloor--;
+                    Debug.Log("Dropped to floor: " + currentFloor);
+                    return;
+                }
+            }
         }
 
+        // Apply velocity (2D)
+        rb.linearVelocity = move * speed;
+
+        // Flip sprite
         if (move.x != 0)
-        {
             spr.flipX = move.x < 0;
-        }
 
-        rb.linearVelocity = move * currentSpeed; 
+        //if (anim != null)
+        //    anim.SetFloat("Speed", move.sqrMagnitude);
     }
 
     private void HandleJump()
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
+            if (map == null) return;
+
+            if (map.CanJumpUp(currentFloor, transform.position))
+            {
+                currentFloor++;
+                Debug.Log("Jumped to floor: " + currentFloor);
+            }
         }
     }
 
     private void HandleDash()
     {
+        // Shift = dash across OR drop down
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Time.time > lastDashTime + dashCooldown)
+            if (Time.time < lastDashTime + dashCooldown) return;
+            lastDashTime = Time.time;
+
+            if (map == null) return;
+
+            Vector3? target = map.CanDashAcross(currentFloor, transform.position, facingDir);
+
+            if (target.HasValue)
             {
-                lastDashTime = Time.time;
-                StartCoroutine(Dash());
+                // Can dash - teleport to target (same floor)
+                Vector3 targetPos = target.Value;
+                StartCoroutine(DashToTarget(new Vector2(targetPos.x, targetPos.y)));
+            }
+            else
+            {
+                // Can't dash - drop down
+                if (currentFloor > 0)
+                {
+                    currentFloor--;
+                    StartCoroutine(DashInvulnerability());
+                    Debug.Log("Dash failed, dropped to floor: " + currentFloor);
+                }
+            }
+        }
+    }
+
+    private void HandleDrop()
+    {
+        // Ctrl = drop down one floor
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            if (currentFloor > 0)
+            {
+                currentFloor--;
+                Debug.Log("Dropped to floor: " + currentFloor);
             }
         }
     }
@@ -136,32 +209,34 @@ public class Player : MonoBehaviour
         }
     }
 
-    // === Collisions ===
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.contacts[0].normal.y > 0.5f)
-        {
-            isGrounded = true;
-        }
-    }
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        isGrounded = false;
-    }
 
     // === Coroutines ===
-    IEnumerator Dash()
+    IEnumerator DashToTarget(Vector2 target)
     {
         isDashing = true;
-        currentSpeed = dashSpeed;
         isInvulnerable = true;
 
-        yield return new WaitForSeconds(dashDuration);
+        // Disable collision with enemies (2D version)
+        int playerLayer = gameObject.layer;
+        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
+        // Teleport
+        transform.position = new Vector3(target.x, target.y, transform.position.z);
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Re-enable collision
+        Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, false);
         isInvulnerable = false;
-        currentSpeed = speed;
         isDashing = false;
+    }
+
+    IEnumerator DashInvulnerability()
+    {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(0.2f);
+        isInvulnerable = false;
     }
 
     IEnumerator Blink()
@@ -173,6 +248,11 @@ public class Player : MonoBehaviour
             spr.enabled = true;
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public int GetCurrentFloor()
+    {
+        return currentFloor;
     }
 
     // Kept this for later use, but Start() overrides it for now
