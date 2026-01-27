@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class Enemies : MonoBehaviour
 {
     [Header("Base Stats (Level 1 Values)")]
+    public string enemyName;
     // set these in the inspector for how strong the enemy is at level 1
     public float baseHealth = 100f;
     public float baseDamage = 10f;
