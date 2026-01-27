@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
 public enum MaskType { Melee, Ranged, Mage }
-//public MaskType currentMask;
-
 
 public class Player : MonoBehaviour
 {
@@ -13,12 +10,10 @@ public class Player : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Transform Tr;
     [HideInInspector] public SpriteRenderer spr;
-    [HideInInspector] public Animator anim;
-
+    
     // === Movement ===
     [Header("Movement")]
     public int speed = 5;
-    //[HideInInspector] public Vector3 startpos;
     float dashSpeed = 10f;
     float dashDuration = 0.5f;
     float dashCooldown = 5f;
@@ -26,12 +21,10 @@ public class Player : MonoBehaviour
     float currentSpeed;
     Vector2 lastMoveDir = Vector2.right;
 
-
     // === State ===
     [HideInInspector] public bool isInvulnerable;
     [HideInInspector] public bool canAttack = true;
     [HideInInspector] public bool isKnockedBack;
-
 
     // === Jumping ===
     [Header("Jumping")]
@@ -39,50 +32,36 @@ public class Player : MonoBehaviour
     private bool isGrounded;
 
     // === Animations ===
-    //[Header("Animations")]
     bool isDashing = false;
 
     // === Scripts ===
     [Header("Scripts")]
     BaseMask mask;
 
-
     void Start()
     {
-        //gameObject.tag = "MainPlayer";
-
         rb = GetComponent<Rigidbody2D>();
         Tr = GetComponent<Transform>();
         spr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
 
-        // Position
-        //startpos = Tr.position;
         currentSpeed = speed;
 
         StartCoroutine(Blink());
-        ApplyMask(GameSession.SelectedMask);
 
-    }
-
-    void ApplyMask(MaskType type)
-    {
-        switch (type)
+        // --- TEST MODE FIX ---
+        // Instead of asking GameSession (which is empty), we FORCE the Mage Mask.
+        MageMask testMask = GetComponent<MageMask>();
+        if (testMask != null)
         {
-            case MaskType.Mage:
-                mask = gameObject.AddComponent<MageMask>();
-                break;
-
-            case MaskType.Melee:
-                //mask = gameObject.AddComponent<MeleeMask>();
-                break;
-
-            case MaskType.Ranged:
-                //mask = gameObject.AddComponent<RangedMask>();
-                break;
+            mask = testMask;
+            mask.enabled = true;
+            Debug.Log("TEST MODE: Mage Mask Forced ON.");
+        }
+        else
+        {
+            Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
         }
     }
-
 
     void Update()
     {
@@ -91,8 +70,6 @@ public class Player : MonoBehaviour
         HandleJump();
         HandleDash();
         HandleAttacks();
-
-        anim.SetBool("isGrounded", isGrounded);
     }
 
     private void HandleMovement()
@@ -104,7 +81,6 @@ public class Player : MonoBehaviour
 
         Vector2 move = new Vector2(x, y);
 
-        // Store last movement direction for dash & knockback recovery
         if (move.sqrMagnitude > 0.01f)
         {
             lastMoveDir = move.normalized;
@@ -115,16 +91,14 @@ public class Player : MonoBehaviour
             spr.flipX = move.x < 0;
         }
 
-        rb.linearVelocity = move * currentSpeed;
-
-        anim.SetFloat("Speed", move.sqrMagnitude);
+        rb.linearVelocity = move * currentSpeed; 
     }
 
     private void HandleJump()
     {
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, jump);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
         }
     }
 
@@ -142,7 +116,15 @@ public class Player : MonoBehaviour
 
     private void HandleAttacks()
     {
-        if (!canAttack || mask == null) return;
+        if (!canAttack) return;
+
+        // Safety check
+        if (mask == null)
+        {
+            // If we lost the mask, try to find it again
+            mask = GetComponent<BaseMask>();
+            if (mask == null) return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -154,7 +136,6 @@ public class Player : MonoBehaviour
         }
     }
 
-
     // === Collisions ===
     void OnCollisionStay2D(Collision2D collision)
     {
@@ -162,14 +143,12 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
-
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
         isGrounded = false;
     }
-
 
     // === Coroutines ===
     IEnumerator Dash()
@@ -196,5 +175,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Kept this for later use, but Start() overrides it for now
+    public void ApplyMask(MaskType type)
+    {
+        if (mask != null) mask.enabled = false;
 
+        switch (type)
+        {
+            case MaskType.Mage:
+                MageMask existingMage = GetComponent<MageMask>();
+                if (existingMage != null)
+                {
+                    mask = existingMage;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<MageMask>();
+                }
+                break;
+        }
+    }
 }
