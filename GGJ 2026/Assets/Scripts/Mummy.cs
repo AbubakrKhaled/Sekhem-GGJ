@@ -4,28 +4,36 @@ public class Mummy : Mob
 {
     public override void Start()
     {
-        base.Start(); // <--- FIXED: Added semicolon here
+        // 1. set health specifically for level 1
+        // 15 damage (pillar) x 2 hits = 30 health
+        baseHealth = 30f; 
 
-        // handles if you forgot to set name in inspector to mummy
+        // 2. run the standard enemy setup (finding player, calculating growth)
+        base.Start(); 
+
+        // safety check: gives it a name if we forgot in the inspector
         if (string.IsNullOrEmpty(enemyName)) enemyName = "Mummy";
     }
 
     public override void Attack()
     {
-        // checks if the player is still alive and has health
+        // check if player exists before trying to hit them
         if (player != null)
         {
+            // try to find the player's health script
             PlayerHealth hp = player.GetComponent<PlayerHealth>();
             
             if (hp != null)
             {
-                // 1. Calculate the direction for knockback
+                // 1. calculate direction
+                // math: (player pos - mummy pos) gives direction towards the player
                 Vector2 direction = (player.position - transform.position).normalized;
 
-                // 2. Convert float damage to int and send direction
+                // 2. deal damage
+                // convert damage to int because player health uses integers
                 hp.TakeDamage((int)currentDamage, direction);
                 
-                Debug.Log("Mummy hit player!");
+                Debug.Log("mummy hit player!");
             }
         }  
     }

@@ -4,29 +4,37 @@ public class Hound : Mob
 {
     public override void Start()
     {
-        // define the hound stats before intitiating level math
-        // this overrides whatever is in the inspector
-        speed = 6f; // default is 3
-        baseHealth = 150f; // tanker than default 100
-        base.Start(); // now run math with these numbers
+        // 1. override the inspector speed settings
+        // keeping this exactly as you requested
+        speed = 4f; 
+        
+        // 2. set health specifically for level 1
+        // 15 damage (pillar) x 4 hits = 60 health
+        baseHealth = 60f; 
+        
+        // 3. now run the base math using these new numbers
+        base.Start(); 
     }
+
     public override void Attack()
     {
-    if (player != null)
+        // check if we have a valid target
+        if (player != null)
         {
-        PlayerHealth hp = player.GetComponent<PlayerHealth>();
-        
+            PlayerHealth hp = player.GetComponent<PlayerHealth>();
+            
             if (hp != null)
             {
-                // Calculate the direction the hit came from
+                // 1. calculate direction
+                // finding the vector from the hound to the player
                 Vector2 hitDirection = (player.position - transform.position).normalized;
 
-                // Send the damage (as an int) AND the direction
+                // 2. send damage and direction
+                // this ensures the player gets knocked back the right way
                 hp.TakeDamage((int)currentDamage, hitDirection);
                 
-                Debug.Log("Hound bit player for " + currentDamage);
-                }
+                Debug.Log("hound bit player for " + currentDamage);
+            }
         }
     }
-
 }

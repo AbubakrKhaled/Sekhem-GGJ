@@ -26,16 +26,22 @@ public abstract class Enemies : MonoBehaviour
     [HideInInspector]
     public Transform player;
 
+    // --- NEW: needed for physics pushback ---
+    protected Rigidbody2D rb; 
+
     public virtual void Start()
     {
-        // 1. find the player
+        // 1. grab the rigidbody component so we can be pushed around
+        rb = GetComponent<Rigidbody2D>();
+
+        // 2. find the player
         GameObject p = GameObject.Find("Player");
         if (p != null)
         {
             player = p.transform;
         }
 
-        // 2. calculate stats based on the level
+        // 3. calculate stats based on the level
         InitializeStats();
     }
 
@@ -45,19 +51,29 @@ public abstract class Enemies : MonoBehaviour
         int level = GameTracker.currentLevel;
 
         // formula: base + (base * growth * (level - 1))
-        // example: level 1 = 100 health
-        // example: level 2 = 110 health (if growth is 0.1)
         currentHealth = baseHealth * (1f + (healthGrowth * (level - 1)));
         currentDamage = baseDamage * (1f + (damageGrowth * (level - 1)));
-
-        // debug to check if it works
-        // Debug.Log(enemyName + " spawned at level " + level + " with " + currentHealth + " hp");
     }
 
-    public void TakeDamage(float amount)
+    // --- UPDATED TAKEDAMAGE FUNCTION ---
+    // now accepts optional knockback force and direction variables
+    public virtual void TakeDamage(float amount, float knockbackForce = 0f, Vector2 knockbackDir = default)
     {
         // we subtract from currentHealth, not baseHealth
         currentHealth -= amount;
+        
+        Debug.Log(enemyName + " took " + amount + " damage. Remaining: " + currentHealth);
+
+        // --- PHYSICS LOGIC ---
+        // only run this if we actually want to push the enemy
+        if (rb != null && knockbackForce > 0)
+        {
+            // stop current movement so the hit feels heavy and snappy
+            rb.linearVelocity = Vector2.zero; 
+            
+            // apply the push force in the direction requested
+            rb.AddForce(knockbackDir * knockbackForce, ForceMode2D.Impulse);
+        }
 
         if (currentHealth <= 0)
         {
