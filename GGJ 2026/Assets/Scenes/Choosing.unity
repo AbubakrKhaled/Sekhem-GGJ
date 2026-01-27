@@ -119,6 +119,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &284453903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 284453905}
+  - component: {fileID: 284453904}
+  m_Layer: 0
+  m_Name: Choosing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &284453904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284453903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d567802633d994b4dbbf1f5a69d98062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &284453905
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284453903}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.13262811, y: -1.0162446, z: 0.004345471}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &408884898
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,7 +928,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1081211956}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 284453904}
+        m_TargetAssemblyTypeName: MaskChoosing, Assembly-CSharp
+        m_MethodName: SelectRanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1081211956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,7 +1061,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1319205086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 284453904}
+        m_TargetAssemblyTypeName: MaskChoosing, Assembly-CSharp
+        m_MethodName: SelectMage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1319205086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1126,7 +1194,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1483658623}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 284453904}
+        m_TargetAssemblyTypeName: MaskChoosing, Assembly-CSharp
+        m_MethodName: SelectMelee
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1483658623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,3 +1252,4 @@ SceneRoots:
   - {fileID: 523312522}
   - {fileID: 408884902}
   - {fileID: 968552919}
+  - {fileID: 284453905}
