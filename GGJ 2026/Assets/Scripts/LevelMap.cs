@@ -16,8 +16,8 @@ public class LevelMap : MonoBehaviour
     */
     public int[,,] map = new int[3, 16, 16];
 
-    public float tileSize = 1f;      // World units per tile
-    public float floorHeight = 2f;   // World Z per floor
+    public float tileSize = 5f;      // World units per tile
+    public float floorHeight = 1f;   // World Z per floor
 
     void Awake()
     {
@@ -41,147 +41,82 @@ public class LevelMap : MonoBehaviour
 
     void BuildLevel1()
     {
-        string[] floor0 = {
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-    };
-        LoadFloor(0, floor0);
-
-        string[] floor1 = {
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "1111000000001111",
-        "1111000000001111",
-        "1111000000001111",
-        "1111000000001111",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-    };
-        LoadFloor(1, floor1);
-
-        string[] floor2 = {
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000001111000000",
-        "0000001111000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-    };
-        LoadFloor(2, floor2);
+        FillFloor(0, 1);
     }
 
     void BuildLevel2()
     {
-        string[] floor0 = {
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-        "1111111111111111",
-    };
-        LoadFloor(0, floor0);
+        FillFloor(0, 1);
 
         string[] floor1 = {
-        "1111111100000000",
-        "1111111100000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000011111111",
-        "0000000011111111",
-        "0000000000000000",
-        "0000000000000000",
-        "1111111100000000",
-        "1111111100000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000011111111",
-        "0000000011111111",
-        "0000000000000000",
-        "0000000000000000",
-    };
+            "111111000000",
+            "111111000000",
+            "000000000000",
+            "000000111111",
+            "000000111111",
+            "000000000000",
+            "111111000000",
+            "111111000000",
+            "000000000000",
+            "000000111111",
+            "000000111111",
+            "000000000000",
+        };
         LoadFloor(1, floor1);
-
-        string[] floor2 = {
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000111111110000",
-        "0000111111110000",
-        "0000111111110000",
-        "0000111111110000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-        "0000000000000000",
-    };
-        LoadFloor(2, floor2);
     }
 
     void BuildLevel3()
     {
-        // Your level 3 layout here
-        // Same pattern: floor0, floor1, floor2
+        FillFloor(0, 1);
+
+        string[] floor1 = {
+            "111000000111",
+            "111000000111",
+            "111000000111",
+            "000000000000",
+            "000111111000",
+            "000111111000",
+            "000111111000",
+            "000111111000",
+            "000000000000",
+            "111000000111",
+            "111000000111",
+            "111000000111",
+        };
+        LoadFloor(1, floor1);
+
+        string[] floor2 = {
+            "000000000000",
+            "000000000000",
+            "000000000000",
+            "000000000000",
+            "000111111000",
+            "000111111000",
+            "000111111000",
+            "000111111000",
+            "000000000000",
+            "000000000000",
+            "000000000000",
+            "000000000000",
+        };
+        LoadFloor(2, floor2);
+
     }
-    /// <summary>
-    /// Load floor from string array
-    /// '1' = ground, '0' or anything else = empty
-    /// </summary>
+    void FillFloor(int floor, int value)
+    {
+        for (int y = 0; y < 12; y++)
+            for (int x = 0; x < 12; x++)
+                map[floor, y, x] = value;
+    }
+
     void LoadFloor(int floor, string[] rows)
     {
-        for (int y = 0; y < 16; y++)
+        for (int y = 0; y < 12; y++)
         {
             if (y >= rows.Length) break;
 
             string row = rows[y];
-            for (int x = 0; x < 16; x++)
+            for (int x = 0; x < 12; x++)
             {
                 if (x >= row.Length) break;
                 map[floor, y, x] = row[x] == '1' ? 1 : 0;
@@ -198,64 +133,47 @@ public class LevelMap : MonoBehaviour
     bool InBounds(int floor, int x, int y)
     {
         return floor >= 0 && floor < 3 &&
-               x >= 0 && x < 16 &&
-               y >= 0 && y < 16;
+               x >= 0 && x < 12 &&
+               y >= 0 && y < 12;
     }
 
-    /// <summary>
-    /// Check if tile has ground (is walkable)
-    /// </summary>
     public bool HasGround(int floor, int x, int y)
     {
         if (!InBounds(floor, x, y)) return false;
         return map[floor, y, x] == 1;
     }
 
-    /// <summary>
-    /// Convert world position to grid coordinates (clamped to bounds)
-    /// </summary>
     public Vector3Int GetGrid(Vector3 worldPos)
     {
         int x = Mathf.FloorToInt(worldPos.x / tileSize);
         int y = Mathf.FloorToInt(worldPos.y / tileSize);
         int z = Mathf.RoundToInt(worldPos.z / floorHeight);
 
-        // Clamp to prevent out of bounds
-        x = Mathf.Clamp(x, 0, 15);
-        y = Mathf.Clamp(y, 0, 15);
+        x = Mathf.Clamp(x, 0, 11);  // 0-11 for 12 tiles
+        y = Mathf.Clamp(y, 0, 11);
         z = Mathf.Clamp(z, 0, 2);
 
         return new Vector3Int(x, y, z);
     }
 
-    /// <summary>
-    /// Convert grid coordinates to world position (center of tile)
-    /// </summary>
     public Vector3 GetWorld(int floor, int x, int y)
     {
         return new Vector3(
-            (x + 0.5f) * tileSize,
+            (x + 0.5f) * tileSize,  // Center of tile
             (y + 0.5f) * tileSize,
             floor * floorHeight
         );
     }
 
-    // ===== PLAYER ACTION CHECKS =====
+    // ===== PLAYER ACTIONS =====
 
-    /// <summary>
-    /// SPACE: Can jump up? (tile above must be solid)
-    /// </summary>
     public bool CanJumpUp(Vector3 pos)
     {
         Vector3Int grid = GetGrid(pos);
-        if (grid.z >= 2) return false; // Already at top
+        if (grid.z >= 2) return false;
         return HasGround(grid.z + 1, grid.x, grid.y);
     }
 
-    /// <summary>
-    /// SHIFT: Can dash across? (max 3 empty tiles, same floor)
-    /// Returns target position or null
-    /// </summary>
     public Vector3? CanDashAcross(Vector3 pos, Vector2 dir)
     {
         Vector3Int grid = GetGrid(pos);
@@ -274,10 +192,8 @@ public class LevelMap : MonoBehaviour
             checkX += stepX;
             checkY += stepY;
 
-            // Out of bounds
             if (!InBounds(grid.z, checkX, checkY)) return null;
 
-            // Found ground
             if (HasGround(grid.z, checkX, checkY))
             {
                 return emptyCount <= 3 ? GetWorld(grid.z, checkX, checkY) : null;
@@ -286,16 +202,13 @@ public class LevelMap : MonoBehaviour
             emptyCount++;
         }
 
-        return null; // No ground found
+        return null;
     }
 
-    /// <summary>
-    /// Walking: About to walk off edge?
-    /// </summary>
     public bool IsAtLedge(Vector3 pos, Vector2 dir)
     {
         Vector3Int grid = GetGrid(pos);
-        if (grid.z == 0) return false; // Can't fall below floor 0
+        if (grid.z == 0) return false;
 
         int nextX = grid.x + Mathf.RoundToInt(dir.x);
         int nextY = grid.y + Mathf.RoundToInt(dir.y);
@@ -303,18 +216,12 @@ public class LevelMap : MonoBehaviour
         return !HasGround(grid.z, nextX, nextY);
     }
 
-    /// <summary>
-    /// Get position one floor down
-    /// </summary>
     public Vector3 GetPosBelow(Vector3 pos)
     {
         Vector3Int grid = GetGrid(pos);
         return GetWorld(Mathf.Max(0, grid.z - 1), grid.x, grid.y);
     }
 
-    /// <summary>
-    /// Get position one floor up
-    /// </summary>
     public Vector3 GetPosAbove(Vector3 pos)
     {
         Vector3Int grid = GetGrid(pos);
