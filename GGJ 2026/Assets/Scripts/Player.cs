@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
 public enum MaskType { Melee, Ranged, Mage }
-//public MaskType currentMask;
-
 
 public class Player : MonoBehaviour
 {
@@ -13,198 +10,121 @@ public class Player : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Transform Tr;
     [HideInInspector] public SpriteRenderer spr;
-    //[HideInInspector] public Animator anim;
-
+    
     // === Movement ===
     [Header("Movement")]
-    float speed = 5;
+    public int speed = 5;
     float dashSpeed = 10f;
-    float dashDuration = 0.4f;
+    float dashDuration = 0.5f;
     float dashCooldown = 5f;
-    float lastDashTime = -10f;
-
+    float lastDashTime;
     float currentSpeed;
-    Vector2 lastMoveDir;
-    private Vector2 currentInputDir;
-
+    Vector2 lastMoveDir = Vector2.right;
 
     // === State ===
     [HideInInspector] public bool isInvulnerable;
     [HideInInspector] public bool canAttack = true;
     [HideInInspector] public bool isKnockedBack;
-    bool isDashing = false;
-
 
     // === Jumping ===
     [Header("Jumping")]
     public int jump = 7;
     private bool isGrounded;
-    public LayerMask groundLayer;
-    public float groundCheckDistance = 0.1f;
-    public Transform groundCheckPoint;
 
     // === Animations ===
-    //[Header("Animations")]
+    bool isDashing = false;
 
     // === Scripts ===
     [Header("Scripts")]
     BaseMask mask;
-
-    // === Level Map ===
-    private LevelMap map;
-    private Vector2 facingDir = Vector2.right;
-
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Tr = GetComponent<Transform>();
         spr = GetComponent<SpriteRenderer>();
-        //anim = GetComponent<Animator>();
 
         currentSpeed = speed;
 
-        map = LevelMap.Instance;
-
         StartCoroutine(Blink());
-        ApplyMask(GameSession.SelectedMask);
 
-    }
-
-    void ApplyMask(MaskType type)
-    {
-        switch (type)
+        // --- TEST MODE FIX ---
+        // Instead of asking GameSession (which is empty), we FORCE the Mage Mask.
+        MageMask testMask = GetComponent<MageMask>();
+        if (testMask != null)
         {
-            case MaskType.Mage:
-                mask = gameObject.AddComponent<MageMask>();
-                break;
-
-            case MaskType.Melee:
-                //mask = gameObject.AddComponent<MeleeMask>();
-                break;
-
-            case MaskType.Ranged:
-                //mask = gameObject.AddComponent<RangedMask>();
-                break;
+            mask = testMask;
+            mask.enabled = true;
+            Debug.Log("TEST MODE: Mage Mask Forced ON.");
+        }
+        else
+        {
+            Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
         }
     }
-
 
     void Update()
     {
         if (isKnockedBack) return;
-
-        CheckGrounded();
-
         HandleMovement();
         HandleJump();
         HandleDash();
         HandleAttacks();
-        HandleDrop();
-
-        /*if (anim != null)
-        {
-            anim.SetBool("isGrounded", isGrounded);
-        }*/
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
         if (isDashing) return;
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 
-        float isoX = x + y;
-        float isoY = y - x;
-        Vector2 move = new Vector2(isoX, isoY);
+        Vector2 move = new Vector2(x, y);
 
         if (move.sqrMagnitude > 0.01f)
         {
-            move = move.normalized;
-
-            // Track facing direction
-            facingDir = new Vector2(
-                Mathf.RoundToInt(isoX),
-                Mathf.RoundToInt(isoY)
-            );
-
-            // Check ledge - auto drop
-            if (map != null && map.IsAtLedge(transform.position, facingDir))
-            {
-                transform.position = map.GetPosBelow(transform.position);
-                return;
-            }
+            lastMoveDir = move.normalized;
         }
-
-        rb.linearVelocity = new Vector3(
-            move.x * speed,
-            move.y * speed
-        );
 
         if (move.x != 0)
+        {
             spr.flipX = move.x < 0;
+        }
 
-        /*if (anim != null)
-            anim.SetFloat("Speed", move.sqrMagnitude);*/
+        rb.linearVelocity = move * currentSpeed; 
     }
 
-    void HandleJump()
+    private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)) && isGrounded)
         {
-            if (map != null && map.CanJumpUp(transform.position))
-            {
-                transform.position = map.GetPosAbove(transform.position);
-            }
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
         }
     }
 
-    void HandleDash()
+    private void HandleDash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            if (Time.time < lastDashTime + dashCooldown) return;
-            lastDashTime = Time.time;
-
-            if (map == null) return;
-
-            Vector3? target = map.CanDashAcross(transform.position, facingDir);
-
-            if (target.HasValue)
+            if (Time.time > lastDashTime + dashCooldown)
             {
-                // Can dash - gap is 3 or less
-                transform.position = target.Value;
-            }
-            else
-            {
-                // Can't dash - drop down
-                Vector3Int grid = map.GetGrid(transform.position);
-                if (grid.z > 0)
-                {
-                    transform.position = map.GetPosBelow(transform.position);
-                }
-            }
-        }
-    }
-
-    void HandleDrop()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            if (map == null) return;
-
-            Vector3Int grid = map.GetGrid(transform.position);
-            if (grid.z > 0)
-            {
-                transform.position = map.GetPosBelow(transform.position);
+                lastDashTime = Time.time;
+                StartCoroutine(Dash());
             }
         }
     }
 
     private void HandleAttacks()
     {
-        if (!canAttack || mask == null) return;
+        if (!canAttack) return;
+
+        // Safety check
+        if (mask == null)
+        {
+            // If we lost the mask, try to find it again
+            mask = GetComponent<BaseMask>();
+            if (mask == null) return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -216,39 +136,31 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void CheckGrounded()
+    // === Collisions ===
+    void OnCollisionStay2D(Collision2D collision)
     {
-        // Raycast downward to detect ground
-        RaycastHit2D hit = Physics2D.Raycast(
-            groundCheckPoint.position,
-            Vector2.down,
-            groundCheckDistance,
-            groundLayer
-        );
-
-        isGrounded = hit.collider != null;
+        if (collision.contacts[0].normal.y > 0.5f)
+        {
+            isGrounded = true;
+        }
     }
 
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        isGrounded = false;
+    }
 
     // === Coroutines ===
     IEnumerator Dash()
     {
         isDashing = true;
+        currentSpeed = dashSpeed;
         isInvulnerable = true;
-
-        Vector2 dashDir = lastMoveDir;
-        if (dashDir.sqrMagnitude < 0.1f)
-        {
-            dashDir = spr.flipX ? Vector2.left : Vector2.right;
-        }
-        dashDir = dashDir.normalized;
-
-        // Apply dash velocity (preserve some Y for mid-air dashes)
-        rb.linearVelocity = new Vector2(dashDir.x * dashSpeed, rb.linearVelocity.y * 0.5f);
 
         yield return new WaitForSeconds(dashDuration);
 
         isInvulnerable = false;
+        currentSpeed = speed;
         isDashing = false;
     }
 
@@ -263,5 +175,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    // Kept this for later use, but Start() overrides it for now
+    public void ApplyMask(MaskType type)
+    {
+        if (mask != null) mask.enabled = false;
 
+        switch (type)
+        {
+            case MaskType.Mage:
+                MageMask existingMage = GetComponent<MageMask>();
+                if (existingMage != null)
+                {
+                    mask = existingMage;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<MageMask>();
+                }
+                break;
+        }
+    }
 }
