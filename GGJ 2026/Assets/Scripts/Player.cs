@@ -94,7 +94,11 @@ public class Player : MonoBehaviour
         //    Debug.Log("TEST MODE: Melee Mask Forced ON.");
         //}
 
-        ApplyMask(GameSession.SelectedMask);
+        //ApplyMask(GameSession.SelectedMask);
+        mask = GetComponent<MeleeMask>();
+        mask.enabled = true;
+        anim.runtimeAnimatorController = meleeAnimator;
+
 
     }
 
