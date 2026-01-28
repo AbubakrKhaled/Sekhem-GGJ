@@ -270,10 +270,10 @@ public class Player : MonoBehaviour
         }
         
         // Sound
-        if (Audiomanager.Instance != null)
-        {
-            Audiomanager.Instance.PlaySFX(Audiomanager.Instance.jump);
-        }
+        //if (Audiomanager.Instance != null)
+        //{
+        //    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.jump);
+        //}
         
         isJumping = false;
         isGrounded = true;
