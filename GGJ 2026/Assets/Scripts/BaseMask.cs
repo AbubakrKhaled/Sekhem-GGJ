@@ -22,11 +22,17 @@ public abstract class BaseMask : MonoBehaviour
     public virtual void CollectFragment()
     {
         fragmentsCollected++;
+        Debug.Log($"🎯 Fragment collected! ({fragmentsCollected}/{fragmentsRequired})");
 
         // check if we have enough to trigger the event
         if (fragmentsCollected >= fragmentsRequired)
         {
+            Debug.Log($"✅ THRESHOLD REACHED! Upgrading mask...");
             UpgradeMask();
+        }
+        else
+        {
+            Debug.Log($"Need {fragmentsRequired - fragmentsCollected} more fragment(s)");
         }
     }
 

@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
             Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
         }
         MeleeMask testMask2 = GetComponent<MeleeMask>(); // Check for Melee first
-        if (testMask != null)
+        if (testMask2 != null)
         {
             mask = testMask2;
             mask.enabled = true;
@@ -276,6 +276,32 @@ public class Player : MonoBehaviour
                 else
                 {
                     mask = gameObject.AddComponent<MageMask>();
+                }
+                break;
+
+            case MaskType.Melee:
+                MeleeMask existingMelee = GetComponent<MeleeMask>();
+                if (existingMelee != null)
+                {
+                    mask = existingMelee;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<MeleeMask>();
+                }
+                break;
+
+            case MaskType.Ranged:
+                RangerMask existingRanger = GetComponent<RangerMask>();
+                if (existingRanger != null)
+                {
+                    mask = existingRanger;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<RangerMask>();
                 }
                 break;
         }

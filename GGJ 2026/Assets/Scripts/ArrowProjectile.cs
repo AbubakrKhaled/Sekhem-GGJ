@@ -3,29 +3,31 @@ using UnityEngine;
 public class ArrowProjectile : MonoBehaviour
 {
     private float speed;
-    private float direction; // 1 for Right, -1 for Left
+    private Vector2 direction; // 2D direction for spread shots
     private int damage;
     private float pushForce;
     private float lifeTime = 5f; // Destroy after 5 seconds if it hits nothing
 
-    public void Setup(float dir, float spd, int dmg, float push)
+    // New Setup signature for spread shots (2D direction)
+    public void Setup(float dirX, float spd, int dmg, float push, float dirY = 0f)
     {
-        direction = dir;
+        direction = new Vector2(dirX, dirY).normalized;
         speed = spd;
         damage = dmg;
         pushForce = push;
 
-        // Rotate visual: If moving left, flip the arrow 180 degrees
-        if (direction < 0)
+        // Rotate arrow to face direction of travel
+        if (dirY != 0f || dirX < 0)
         {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, 1);
+            float angle = Mathf.Atan2(dirY, dirX) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
     }
 
     void Update()
     {
-        // Move strictly horizontal
-        transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+        // Move in 2D direction (supports spread shots)
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
         // Safety cleanup
         lifeTime -= Time.deltaTime;
@@ -42,8 +44,8 @@ public class ArrowProjectile : MonoBehaviour
 
         if (enemy != null)
         {
-            // Create a horizontal knockback vector
-            Vector2 knockDir = new Vector2(direction, 0);
+            // Use the arrow's direction for knockback (supports spread shots)
+            Vector2 knockDir = direction.normalized;
 
             // Deal damage using the method from your Enemies.cs
             enemy.TakeDamage(damage, pushForce, knockDir);

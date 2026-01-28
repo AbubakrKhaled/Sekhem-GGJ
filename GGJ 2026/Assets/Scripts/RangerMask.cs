@@ -27,20 +27,69 @@ public class RangerMask : BaseMask
         if (Time.time < lastFireTime + fireCooldown) return;
 
         float dirX = (playerSpr != null && playerSpr.flipX) ? -1f : 1f;
-        Vector3 spawnPos = transform.position + new Vector3(spawnOffset * dirX, 0, 0);
+        Vector3 baseSpawnPos = transform.position + new Vector3(spawnOffset * dirX, 0, 0);
 
         if (arrowPrefab != null)
         {
-            GameObject arrowObj = Instantiate(arrowPrefab, spawnPos, Quaternion.identity);
-
-            ArrowProjectile arrowScript = arrowObj.GetComponent<ArrowProjectile>();
-            if (arrowScript != null)
+            // Determine number of arrows and spread based on mask level
+            int arrowCount = maskLevel;  // Level 1 = 1 arrow, Level 2 = 2 arrows, Level 3 = 3 arrows
+            float spreadAngle = 0f;
+            
+            if (maskLevel == 2)
             {
-                // pass the current upgraded stats to the arrow
-                arrowScript.Setup(dirX, arrowSpeed, baseDamage, knockbackForce);
+                spreadAngle = 15f;  // 15 degrees spread for 2 arrows
+            }
+            else if (maskLevel >= 3)
+            {
+                spreadAngle = 20f;  // 20 degrees spread for 3 arrows
+            }
+
+            // Fire arrows in spread pattern
+            for (int i = 0; i < arrowCount; i++)
+            {
+                // Calculate angle offset for this arrow
+                float angleOffset = 0f;
+                
+                if (arrowCount == 1)
+                {
+                    // Single arrow: straight ahead
+                    angleOffset = 0f;
+                }
+                else if (arrowCount == 2)
+                {
+                    // Two arrows: one at +spread/2, one at -spread/2
+                    angleOffset = (i == 0) ? spreadAngle / 2f : -spreadAngle / 2f;
+                }
+                else if (arrowCount == 3)
+                {
+                    // Three arrows: center, +spread, -spread
+                    if (i == 0) angleOffset = 0f;           // Center
+                    else if (i == 1) angleOffset = spreadAngle;  // Up
+                    else angleOffset = -spreadAngle;             // Down
+                }
+
+                // Calculate direction with spread
+                float angleRad = angleOffset * Mathf.Deg2Rad;
+                float dirY = Mathf.Sin(angleRad);
+                Vector2 direction = new Vector2(dirX, dirY).normalized;
+
+                // Spawn arrow
+                GameObject arrowObj = Instantiate(arrowPrefab, baseSpawnPos, Quaternion.identity);
+
+                ArrowProjectile arrowScript = arrowObj.GetComponent<ArrowProjectile>();
+                if (arrowScript != null)
+                {
+                    // Pass direction as a 2D vector for spread shot
+                    arrowScript.Setup(direction.x, arrowSpeed, baseDamage, knockbackForce, direction.y);
+                }
             }
 
             lastFireTime = Time.time;
+            
+            if (arrowCount > 1)
+            {
+                Debug.Log($"Ranger fired {arrowCount} arrows in spread pattern!");
+            }
         }
     }
 
