@@ -59,6 +59,9 @@ public class Sphinx : Mob
         {
             // we hit something (wall or player)
             endPoint = hit.point;
+            if (Audiomanager.Instance != null)
+                Audiomanager.Instance.PlaySFX(Audiomanager.Instance.sphinx);
+
 
             // --- damage logic ---
             // check if the thing we hit is the player
@@ -71,6 +74,7 @@ public class Sphinx : Mob
                     // deal damage using the level-scaled damage value
                     hp.TakeDamage((int)currentDamage, direction);
                     Debug.Log("sphinx laser zapped player for " + currentDamage);
+
                 }
             }
         }

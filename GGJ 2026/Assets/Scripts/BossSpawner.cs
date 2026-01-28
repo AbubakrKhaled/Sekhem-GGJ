@@ -20,6 +20,11 @@ public class BossSpawner : MonoBehaviour
         {
             Instantiate(bossPrefab, spawnPoint.position, Quaternion.identity);
             Debug.Log("BOSS SPAWNED: " + bossPrefab.name);
+            EnemySpawner spawner = FindFirstObjectByType<EnemySpawner>();
+            if (spawner != null)
+                spawner.enabled = false;
+            if (Audiomanager.Instance != null)
+                Audiomanager.Instance.PlayBossMusic();
         }
         else
         {
