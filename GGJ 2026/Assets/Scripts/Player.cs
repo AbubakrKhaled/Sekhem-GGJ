@@ -104,18 +104,18 @@ public class Player : MonoBehaviour
         //}
 
         //ApplyMask(GameSession.SelectedMask);
-        mask = GetComponent<MeleeMask>();
-        mask.enabled = true;
+        //mask = GetComponent<MeleeMask>();
+        //mask.enabled = true;
         
-        // Only set animator if it exists
-        if (meleeAnimator != null && anim != null)
-        {
-            anim.runtimeAnimatorController = meleeAnimator;
-        }
-        else
-        {
-            Debug.LogWarning("Melee animator controller not assigned! Animations may not work.");
-        }
+        //// Only set animator if it exists
+        //if (meleeAnimator != null && anim != null)
+        //{
+        //    anim.runtimeAnimatorController = meleeAnimator;
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("Melee animator controller not assigned! Animations may not work.");
+        //}
 
 
     }
@@ -168,8 +168,19 @@ public class Player : MonoBehaviour
         rb.linearVelocity = move * speed;
 
         // Flip sprite
+        //if (Mathf.Abs(isoX) > 0.01f)
+        //    spr.flipX = isoX > 0;
+
         if (Mathf.Abs(isoX) > 0.01f)
-            spr.flipX = isoX < 0;
+        {
+            bool facingRight = isoX > 0;
+
+            // Back-facing sprites need inverted flip
+            if (facingVertical == FacingVertical.Back)
+                spr.flipX = !facingRight;
+            else
+                spr.flipX = facingRight;
+        }
 
 
         bool moving = rb.linearVelocity.sqrMagnitude > 0.01f;
