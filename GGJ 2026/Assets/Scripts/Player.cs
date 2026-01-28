@@ -106,7 +106,16 @@ public class Player : MonoBehaviour
         //ApplyMask(GameSession.SelectedMask);
         mask = GetComponent<MeleeMask>();
         mask.enabled = true;
-        anim.runtimeAnimatorController = meleeAnimator;
+        
+        // Only set animator if it exists
+        if (meleeAnimator != null && anim != null)
+        {
+            anim.runtimeAnimatorController = meleeAnimator;
+        }
+        else
+        {
+            Debug.LogWarning("Melee animator controller not assigned! Animations may not work.");
+        }
 
 
     }
@@ -119,22 +128,6 @@ public class Player : MonoBehaviour
         HandleDash();
         HandleAttacks();
         HandleDrop();
-    }
-    
-    void OnGUI()
-    {
-        // DEBUG: Show current floor in top-left corner
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 24;
-        style.fontStyle = FontStyle.Bold;
-        style.normal.textColor = Color.yellow;
-        
-        GUI.Label(new Rect(10, 10, 300, 40), $"Floor: {currentFloor}", style);
-        
-        // Also show grounded status
-        style.fontSize = 18;
-        style.normal.textColor = isGrounded ? Color.green : Color.red;
-        GUI.Label(new Rect(10, 45, 300, 30), $"{(isGrounded ? "Grounded" : "Airborne")}", style);
     }
 
     private void HandleMovement()
