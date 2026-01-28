@@ -87,12 +87,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: -1548174376163750525, guid: fa0b895c810ed194287e274c758e23a1, type: 3}
+  m_Sprite: {fileID: -5803739995134347967, guid: 1d1765b97d04868498a7275359c047f5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.125, y: 1.71875}
+  m_Size: {x: 0.110003285, y: 0.29999998}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -114,14 +114,15 @@ MonoBehaviour:
   Tr: {fileID: 0}
   spr: {fileID: 0}
   anim: {fileID: 0}
-  meleeAnimator: {fileID: 0}
-  rangedAnimator: {fileID: 0}
-  mageAnimator: {fileID: 0}
+  meleeAnimator: {fileID: 9100000, guid: dc8c5e757829efa458aeb008314b79e7, type: 2}
+  rangedAnimator: {fileID: 9100000, guid: 3375623bec531e841bbb275d2fcbd7fc, type: 2}
+  mageAnimator: {fileID: 9100000, guid: 5727072e9a9aad4469d644420123a8b0, type: 2}
   speed: 5
   isInvulnerable: 0
   canAttack: 1
   isKnockedBack: 0
   jump: 7
+  jumpSprite: {fileID: 0}
 --- !u!114 &5645029417167094267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,8 +215,8 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.11, y: 0.3}
-    newSize: {x: 3.125, y: 1.71875}
+    oldSize: {x: 0.110003285, y: 0.29999998}
+    newSize: {x: 0.110003285, y: 0.29999998}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
