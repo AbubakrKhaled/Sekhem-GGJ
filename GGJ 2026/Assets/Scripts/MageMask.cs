@@ -140,13 +140,6 @@ public class MageMask : BaseMask
         float radius = 2f;
         float angleStep = 360f / count;
 
-        // Trigger player animation
-        Player player = GetComponent<Player>();
-        if (player != null && player.anim != null)
-        {
-            player.anim.SetTrigger("attack");
-        }
-
         for (int i = 0; i < count; i++)
         {
             float angle = i * angleStep * Mathf.Deg2Rad;
@@ -195,13 +188,6 @@ public class MageMask : BaseMask
             waterScript.Setup(direction, 12f, (int)GetCurrentDamage(), 5f);
         }
 
-        // Trigger player animation
-        Player player = GetComponent<Player>();
-        if (player != null && player.anim != null)
-        {
-            player.anim.SetTrigger("attack");
-        }
-
         Debug.Log($"💧 Cast Water Projectile! ({GetCurrentDamage()} damage)");
     }
 
@@ -220,13 +206,6 @@ public class MageMask : BaseMask
         // Fire projectiles in a circle (8-12 projectiles based on level)
         int projectileCount = 8 + (maskLevel * 2);
         float angleStep = 360f / projectileCount;
-
-        // Trigger player animation
-        Player player = GetComponent<Player>();
-        if (player != null && player.anim != null)
-        {
-            player.anim.SetTrigger("attack");
-        }
 
         for (int i = 0; i < projectileCount; i++)
         {

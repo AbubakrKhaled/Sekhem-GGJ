@@ -73,14 +73,6 @@ public class RangerMask : BaseMask
                 float dirY = Mathf.Sin(angleRad);
                 Vector2 direction = new Vector2(dirX, dirY).normalized;
 
-
-                // Trigger player animation
-                Player player = GetComponent<Player>();
-                if (player != null && player.anim != null)
-                {
-                    player.anim.SetTrigger("attack");
-                }
-
                 // Spawn arrow
                 GameObject arrowObj = Instantiate(arrowPrefab, baseSpawnPos, Quaternion.identity);
 
