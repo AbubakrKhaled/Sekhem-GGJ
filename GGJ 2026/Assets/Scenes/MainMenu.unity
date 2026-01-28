@@ -214,7 +214,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -439,10 +438,11 @@ MonoBehaviour:
   musicSource: {fileID: 1278503947}
   masterVolume: 0.8
   hound: {fileID: 8300000, guid: 2aed22868eaf0a440b48b8a2f68dd0c5, type: 3}
-  mummy: {fileID: 0}
-  sphinx: {fileID: 0}
+  mummywalk: {fileID: 8300000, guid: 97b8e3cfc54f9384095d508ee9c8f4e1, type: 3}
+  mummyattack: {fileID: 8300000, guid: 1466bf94eecc8574c8f3444277d31204, type: 3}
+  sphinx: {fileID: 8300000, guid: 9ae143feb19a8cb4f87ce7b4fea4d9a5, type: 3}
   bow: {fileID: 8300000, guid: dafd15e3ee64bb742b7d6faecb697666, type: 3}
-  sword: {fileID: 0}
+  sword: {fileID: 8300000, guid: fbb93ab1c2ac84c428d323bbe86fb369, type: 3}
   magic: {fileID: 8300000, guid: ceafbbd9d2d0da444a5556af46c0ca13, type: 3}
   menuMusic: {fileID: 8300000, guid: 15107300aa056904880b4c0a4813293a, type: 3}
   levelMusic: {fileID: 8300000, guid: e17f070773d563b4aa9d68a39800d367, type: 3}
@@ -542,7 +542,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -845,7 +844,6 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -1748,10 +1746,4 @@ SceneRoots:
   - {fileID: 1322714933}
   - {fileID: 1132049987}
   - {fileID: 669437644}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
   - {fileID: 125256522}
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

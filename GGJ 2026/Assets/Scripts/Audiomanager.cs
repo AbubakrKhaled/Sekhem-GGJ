@@ -18,7 +18,8 @@ public class Audiomanager : MonoBehaviour
     //public AudioClip jump;
     //public AudioClip dash;
     public AudioClip hound;
-    public AudioClip mummy;
+    public AudioClip mummywalk;
+    public AudioClip mummyattack;
     public AudioClip sphinx;
     public AudioClip bow;
     public AudioClip sword;

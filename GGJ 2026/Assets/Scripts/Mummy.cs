@@ -40,7 +40,7 @@ public class Mummy : Mob
 
                 Debug.Log("mummy hit player!");
                 if (Audiomanager.Instance != null)
-                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.mummy);
+                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.mummyattack);
 
             }
         }  
