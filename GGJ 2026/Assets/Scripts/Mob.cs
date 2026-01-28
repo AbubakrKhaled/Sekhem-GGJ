@@ -9,12 +9,18 @@ public abstract class Mob : Enemies
     private float lastAttackTime;
     
     // tracks which way the sprite is currently facing
-    private bool isFacingRight = true; 
+    //private bool isFacingRight = true;
+
+    protected Animator anim;
+    protected bool isBack;
+
 
     public override void Start()
     {
         // this runs the code in enemies.cs
         // this is what calculates the health/damage based on the current level
+        anim = GetComponent<Animator>();
+
         base.Start(); 
     }
 
@@ -22,18 +28,39 @@ public abstract class Mob : Enemies
     {
         // if player is missing, stop everything
         if (player == null) return;
+        Vector2 toPlayer = player.position - transform.position;
 
-        // --- sprite flipping logic ---
-        // if player is to the left but we are facing right, flip
-        if (player.position.x < transform.position.x && isFacingRight)
+        // --- FRONT / BACK ---
+        isBack = toPlayer.y > 0;
+
+        // --- LEFT / RIGHT ---
+        if (Mathf.Abs(toPlayer.x) > 0.01f)
         {
-            Flip();
+            Vector3 scale = transform.localScale;
+            scale.x = Mathf.Sign(toPlayer.x) * Mathf.Abs(scale.x);
+            transform.localScale = scale;
         }
-        // if player is to the right but we are facing left, flip
-        else if (player.position.x > transform.position.x && !isFacingRight)
+
+        // --- ANIMATION ---
+        if (anim != null)
         {
-            Flip();
+            bool moving = Vector2.Distance(transform.position, player.position) > attackRange;
+            anim.SetBool("isMoving", moving);
+            anim.SetBool("isBack", isBack);
         }
+
+
+        //// --- sprite flipping logic ---
+        //// if player is to the left but we are facing right, flip
+        //if (player.position.x < transform.position.x && isFacingRight)
+        //{
+        //    Flip();
+        //}
+        //// if player is to the right but we are facing left, flip
+        //else if (player.position.x > transform.position.x && !isFacingRight)
+        //{
+        //    Flip();
+        //}
 
         // --- movement logic ---
         // check distance ignoring z-axis (depth) for 2d
@@ -63,17 +90,17 @@ public abstract class Mob : Enemies
     }
 
     // this flips the image horizontally
-    private void Flip()
-    {
-        isFacingRight = !isFacingRight;
+    //private void Flip()
+    //{
+    //    isFacingRight = !isFacingRight;
         
-        // grab the current scale
-        Vector3 myScale = transform.localScale;
+    //    // grab the current scale
+    //    Vector3 myScale = transform.localScale;
         
-        // multiply x by -1 to mirror the sprite
-        myScale.x *= -1;
+    //    // multiply x by -1 to mirror the sprite
+    //    myScale.x *= -1;
         
-        // apply the new scale
-        transform.localScale = myScale;
-    }
+    //    // apply the new scale
+    //    transform.localScale = myScale;
+    //}
 }
