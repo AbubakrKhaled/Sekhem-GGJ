@@ -43,26 +43,44 @@ public class EnemySpawner : MonoBehaviour
         foreach (Mob m in enemyPrefabs)
         {
             totalWeight += m.spawnWeight;
+            Debug.Log($"[SPAWNER] {m.enemyName} has weight {m.spawnWeight}");
         }
+
+        Debug.Log($"[SPAWNER] Total weight pool: {totalWeight}");
 
         // 3. pick a winning ticket number
         // picks a number between 0 and 80
         int randomValue = Random.Range(0, totalWeight);
+        Debug.Log($"[SPAWNER] Random value picked: {randomValue}");
 
         // 4. find out who owns that winning ticket
+        int cumulativeWeight = 0;
         foreach (Mob m in enemyPrefabs)
         {
+            cumulativeWeight += m.spawnWeight;
+            
             // check if the random number falls inside this enemy's range
-            if (randomValue < m.spawnWeight)
+            if (randomValue < cumulativeWeight)
             {
                 // we found the winner! spawn it
-                Instantiate(m.gameObject, randomPoint.position, Quaternion.identity);
+                Debug.Log($"[SPAWNER] ✅ SPAWNING: {m.enemyName}");
+                GameObject enemy = Instantiate(m.gameObject, randomPoint.position, Quaternion.identity);
+                
+                // FORCE VISIBILITY FIX
+                SpriteRenderer spr = enemy.GetComponent<SpriteRenderer>();
+                if (spr != null)
+                {
+                    spr.sortingOrder = 5; // Force visible layer
+                    spr.sortingLayerName = "Default";
+                }
+                
+                // FORCE SCALE FIX
+                enemy.transform.localScale = new Vector3(3, 3, 1); // Bigger than 1
+                
                 return; // exit the function
             }
-
-            // if not, subtract this enemy's weight and check the next one
-            // (this effectively moves the "window" to the next ticket holder)
-            randomValue -= m.spawnWeight;
         }
+        
+        Debug.LogWarning("[SPAWNER] ⚠️ Failed to spawn any enemy! Check weights.");
     }
 }

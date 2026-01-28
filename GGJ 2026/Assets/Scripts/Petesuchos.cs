@@ -25,7 +25,9 @@ public class Petesuchos : Boss
     private float lastAttackTime = -10f;
     private float lastBeamTime = -10f;
     private SpriteRenderer spriteRenderer;
+    private Animator anim;
     private bool isFacingRight = true;
+    private bool isBack = false;
 
     public override void Start()
     {
@@ -45,8 +47,15 @@ public class Petesuchos : Boss
         // Run the boss initialization (UI health bar setup)
         base.Start();
 
-        // Get sprite renderer for flipping
+        // Get components
         spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        
+        // FORCE VISIBILITY
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = 10;
+        }
         
         Debug.Log("⚡ Petesuchos awakened! Beware the sky beams!");
     }
@@ -58,6 +67,10 @@ public class Petesuchos : Boss
 
         // Calculate distance to player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // --- FACING DIRECTION ---
+        Vector2 toPlayer = player.position - transform.position;
+        isBack = toPlayer.y > 0;
 
         // --- SPRITE FLIPPING ---
         // Face the player
@@ -77,7 +90,8 @@ public class Petesuchos : Boss
             lastBeamTime = Time.time;
         }
 
-        // --- MELEE BEHAVIOR ---
+        // --- AI BEHAVIOR ---
+        bool isMoving = false;
         if (distanceToPlayer <= attackRange)
         {
             // In attack range - stop and punch
@@ -91,9 +105,16 @@ public class Petesuchos : Boss
         {
             // Out of range - chase the player
             ChasePlayer();
+            isMoving = true;
+        }
+        
+        // --- ANIMATION ---
+        if (anim != null)
+        {
+            anim.SetBool("isMoving", isMoving);
+            anim.SetBool("isBack", isBack);
         }
     }
-
     void ChasePlayer()
     {
         // Move towards player using 2D movement
@@ -141,6 +162,8 @@ public class Petesuchos : Boss
             hp.TakeDamage((int)currentDamage, hitDirection);
             
             Debug.Log($"💥 Petesuchos punched player for {currentDamage} damage!");
+
+            if (anim != null) anim.SetTrigger("attack");
         }
     }
 
@@ -149,6 +172,8 @@ public class Petesuchos : Boss
     /// </summary>
     void SummonSkyBeams()
     {
+        if (anim != null) anim.SetTrigger("attack"); // Use same trigger for now
+
         if (skyBeamPrefab == null)
         {
             Debug.LogWarning("Sky Beam prefab not assigned to Petesuchos!");

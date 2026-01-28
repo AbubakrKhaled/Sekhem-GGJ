@@ -48,6 +48,11 @@ public class Sphinx : Mob
         // 1. calculate the direction towards the player
         Vector2 direction = (player.position - mouthPosition.position).normalized;
 
+        if (anim != null)
+        {
+            anim.SetTrigger("attack");
+        }
+
         // 2. fire the invisible math ray (hitscan)
         // this checks "did we hit anything?" instantly using the layer mask
         RaycastHit2D hit = Physics2D.Raycast(mouthPosition.position, direction, attackRange, whatToHit);

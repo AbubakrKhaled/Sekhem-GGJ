@@ -4,7 +4,7 @@ public class Ramses : Boss
 {
     [Header("Ramses Stats")]
     public float moveSpeed = 2.5f;  // Slower than player but relentless
-    public float meleeRange = 1.5f;  // Melee attack range
+    public float meleeRange = 0.3f;  // TINY range to allow player close combat
     public float attackCooldown = 1.5f;  // Time between attacks
     
     private float lastAttackTime = -10f;
@@ -34,6 +34,12 @@ public class Ramses : Boss
         // Get components
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        
+        // FORCE VISIBILITY
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = 10; // High order to be on top
+        }
     }
 
     void Update()

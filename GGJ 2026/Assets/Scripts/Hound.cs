@@ -12,7 +12,11 @@ public class Hound : Mob
         // 15 damage (pillar) x 4 hits = 60 health
         baseHealth = 60f; 
         
-        // 3. now run the base math using these new numbers
+        // 3. CRITICAL: Set attack range very small for melee
+        // Default is 1.5f which causes "invisible barrier"
+        attackRange = 0.5f;
+        
+        // 4. now run the base math using these new numbers
         base.Start(); 
     }
 

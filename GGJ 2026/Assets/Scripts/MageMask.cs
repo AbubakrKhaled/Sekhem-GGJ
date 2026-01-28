@@ -174,8 +174,9 @@ public class MageMask : BaseMask
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = (mousePos - transform.position).normalized;
         
-        // Spawn water projectile
-        GameObject waterObj = Instantiate(waterProjectilePrefab, transform.position, Quaternion.identity);
+        // Spawn water projectile with slight offset to avoid instant collision
+        Vector3 spawnOffset = (Vector3)direction * 0.8f;
+        GameObject waterObj = Instantiate(waterProjectilePrefab, transform.position + spawnOffset, Quaternion.identity);
         
         // Rotate to face direction
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

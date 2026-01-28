@@ -23,7 +23,9 @@ public class Montu : Boss
     
     private float lastProjectileTime = -10f;
     private SpriteRenderer spriteRenderer;
+    private Animator anim;
     private bool isFacingRight = true;
+    private bool isBack = false;
 
     public override void Start()
     {
@@ -43,8 +45,15 @@ public class Montu : Boss
         // Run the boss initialization (UI health bar setup)
         base.Start();
 
-        // Get sprite renderer for flipping
+        // Get components
         spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        
+        // FORCE VISIBILITY
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.sortingOrder = 10;
+        }
         
         Debug.Log("⚔️ Montu, God of War has arrived! Dodge or die!");
     }
@@ -56,6 +65,10 @@ public class Montu : Boss
 
         // Calculate distance to player
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+
+        // --- FACING DIRECTION ---
+        Vector2 toPlayer = player.position - transform.position;
+        isBack = toPlayer.y > 0;
 
         // --- SPRITE FLIPPING ---
         // Face the player
@@ -78,9 +91,28 @@ public class Montu : Boss
                 lastProjectileTime = Time.time;
             }
         }
-
-        // Montu doesn't chase much - primarily ranged boss
-        // Could add slight repositioning here if desired
+        
+        // --- ANIMATION ---
+        if (anim != null)
+        {
+            // Montu is mostly stationary (ranged), isMoving is usually false
+            // But we can check if he's chasing if we add chase logic later
+            anim.SetBool("isMoving", false); 
+            anim.SetBool("isBack", isBack);
+        }
+    }
+    void ChasePlayer()
+    {
+        // Montu is a ranged boss, but we can add minor positioning logic here if needed
+        // For now, he can stay relatively stationary or slowly reposition
+        if (player == null) return;
+        
+        // Move towards player slowly if out of range
+        transform.position = Vector2.MoveTowards(
+            transform.position, 
+            player.position, 
+            moveSpeed * Time.deltaTime
+        );
     }
 
     void Flip()
@@ -105,6 +137,8 @@ public class Montu : Boss
     /// </summary>
     public override void Attack()
     {
+        if (anim != null) anim.SetTrigger("attack");
+
         if (projectilePrefab == null)
         {
             Debug.LogWarning("Projectile prefab not assigned to Montu!");

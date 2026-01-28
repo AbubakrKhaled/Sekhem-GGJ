@@ -13,19 +13,21 @@ public class MeleeMask : BaseMask
     [Header("Combat Stats")]
     // these increase every level
     [SerializeField] private int baseDamage = 10;
-    [SerializeField] private Vector2 hitboxSize = new Vector2(1.5f, 1.5f);
-    [SerializeField] private float reachOffset = 1.0f;
+    [SerializeField] private Vector2 hitboxSize = new Vector2(4f, 4f); // EMERGENCY: Was 1.5x1.5, now HUGE
+    [SerializeField] private float reachOffset = 2.5f; // EMERGENCY: Was 1.0, now extended reach
 
     // internal state
     private int currentComboIndex = 0;
     private float lastAttackTime;
     private bool isAttacking;
     private SpriteRenderer playerSpr;
+    private Animator playerAnim;
 
     protected override void Start()
     {
         base.Start();
         playerSpr = GetComponent<SpriteRenderer>();
+        playerAnim = GetComponent<Animator>(); // Get Player's animator
     }
 
     public override void CastPrimary()
@@ -72,10 +74,10 @@ public class MeleeMask : BaseMask
         int currentDamage = baseDamage;
         float pushForce = 5f;
 
-        Animator anim = GetComponent<Animator>();
-        if (anim != null)
+        // Trigger attack animation on Player
+        if (playerAnim != null)
         {
-            anim.SetTrigger("attack");
+            playerAnim.SetTrigger("attack");
         }
 
         // 3rd hit of combo is always a finisher (stronger)
@@ -87,15 +89,24 @@ public class MeleeMask : BaseMask
 
         Collider2D[] hits = Physics2D.OverlapBoxAll(hitCenter, hitboxSize, 0f);
 
+        Debug.Log($"[MELEE] Attack at {hitCenter}, found {hits.Length} colliders");
+
         foreach (Collider2D hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
 
+            Debug.Log($"[MELEE] Checking hit on: {hit.gameObject.name}");
+
             Enemies enemyScript = hit.GetComponentInParent<Enemies>();
             if (enemyScript != null)
             {
+                Debug.Log($"[MELEE] ✅ HIT {enemyScript.enemyName} for {currentDamage} damage!");
                 Vector2 knockbackDir = new Vector2(dirX, 0);
                 enemyScript.TakeDamage(currentDamage, pushForce, knockbackDir);
+            }
+            else
+            {
+                Debug.Log($"[MELEE] ❌ No Enemies component found on {hit.gameObject.name}");
             }
         }
 

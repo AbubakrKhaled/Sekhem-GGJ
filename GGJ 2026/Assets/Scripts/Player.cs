@@ -71,6 +71,16 @@ public class Player : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
+        // --- CRITICAL PHYSICS FIXES ---
+        // Prevent bouncing at corners and walls
+        if (rb != null)
+        {
+            rb.gravityScale = 0f; // No gravity in top-down view
+            rb.freezeRotation = true; // Don't rotate on collision
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous; // Better collision detection
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate; // Smoother movement
+        }
+
         currentSpeed = speed;
 
         StartCoroutine(Blink());
@@ -96,7 +106,7 @@ public class Player : MonoBehaviour
         //    Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
         //}
         //MeleeMask testMask2 = GetComponent<MeleeMask>(); // Check for Melee first
-        //if (testMask != null)
+        //if (testMask2 != null)
         //{
         //    mask = testMask2;
         //    mask.enabled = true;
@@ -122,7 +132,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // ALWAYS update animations, even during knockback
+        UpdateAnimations();
+        
+        // Stop input handling during knockback
         if (isKnockedBack) return;
+        
         HandleMovement();
         HandleJump();
         HandleDash();
@@ -130,9 +145,35 @@ public class Player : MonoBehaviour
         HandleDrop();
     }
 
+    private void UpdateAnimations()
+    {
+        if (anim == null) return;
+        
+        // Update movement animation
+        bool moving = rb.linearVelocity.sqrMagnitude > 0.01f;
+        
+        // Only set parameters if they exist in the Animator Controller
+        if (HasAnimatorParameter(anim, "isMoving"))
+            anim.SetBool("isMoving", moving);
+        
+        if (HasAnimatorParameter(anim, "isBack"))
+            anim.SetBool("isBack", facingVertical == FacingVertical.Back);
+    }
+    
+    // Helper method to check if animator parameter exists
+    private bool HasAnimatorParameter(Animator animator, string paramName)
+    {
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName) return true;
+        }
+        return false;
+    }
+
     private void HandleMovement()
     {
-        if (isDashing) return;
+        // CRITICAL: Don't override velocity during knockback or dash
+        if (isDashing || isKnockedBack) return;
 
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
@@ -162,22 +203,14 @@ public class Player : MonoBehaviour
                     return;
                 }
             }
+            
+            // Flip sprite
+            if (Mathf.Abs(isoX) > 0.01f)
+                spr.flipX = isoX < 0;
         }
 
-        // Apply velocity (2D)
+        // Apply velocity (2D) - ONLY when not in knockback
         rb.linearVelocity = move * speed;
-
-        // Flip sprite
-        if (Mathf.Abs(isoX) > 0.01f)
-            spr.flipX = isoX < 0;
-
-
-        bool moving = rb.linearVelocity.sqrMagnitude > 0.01f;
-        anim.SetBool("isMoving", moving);
-
-        anim.SetBool("isBack", facingVertical == FacingVertical.Back);
-
-
     }
 
     //private void HandleJump()
@@ -384,9 +417,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    private float timeSinceLastAttackReset = 0f;
+
     private void HandleAttacks()
     {
-        if (!canAttack) return;
+        // FAILSAFE: If canAttack is stuck false for > 2 seconds (and not dead), reset it
+        if (!canAttack)
+        {
+            timeSinceLastAttackReset += Time.deltaTime;
+            if (timeSinceLastAttackReset > 2.0f && !isKnockedBack)
+            {
+                canAttack = true;
+                Debug.LogWarning("FAILSAFE: Reset stuck canAttack flag!");
+                timeSinceLastAttackReset = 0f;
+            }
+            return; // blocked
+        }
+        else
+        {
+            timeSinceLastAttackReset = 0f;
+        }
 
         // Safety check
         if (mask == null)
@@ -398,6 +448,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log($"Attempting attack with {mask.GetType().Name}...");
             mask.CastPrimary();
         }
 
