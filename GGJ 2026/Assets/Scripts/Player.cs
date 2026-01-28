@@ -2,6 +2,7 @@
 using UnityEngine;
 
 public enum MaskType { Melee, Ranged, Mage }
+public enum FacingVertical { Front, Back }
 
 public class Player : MonoBehaviour
 {
@@ -10,7 +11,13 @@ public class Player : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Transform Tr;
     [HideInInspector] public SpriteRenderer spr;
-    
+    [HideInInspector] public Animator anim;
+
+    [Header("Mask Animators")]
+    [SerializeField] private RuntimeAnimatorController meleeAnimator;
+    [SerializeField] private RuntimeAnimatorController rangedAnimator;
+    [SerializeField] private RuntimeAnimatorController mageAnimator;
+
     // === Movement ===
     [Header("Movement")]
     public int speed = 5;
@@ -44,11 +51,16 @@ public class Player : MonoBehaviour
     private int currentFloor = 0;
 
 
+    public FacingVertical facingVertical { get; private set; } = FacingVertical.Front;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Tr = GetComponent<Transform>();
         spr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         currentSpeed = speed;
 
@@ -111,6 +123,8 @@ public class Player : MonoBehaviour
         {
             move = move.normalized;
 
+            facingVertical = isoY > 0 ? FacingVertical.Back : FacingVertical.Front;
+
             facingDir = new Vector2(
                 Mathf.RoundToInt(isoX),
                 Mathf.RoundToInt(isoY)
@@ -132,11 +146,16 @@ public class Player : MonoBehaviour
         rb.linearVelocity = move * speed;
 
         // Flip sprite
-        if (move.x != 0)
-            spr.flipX = move.x > 0;
+        if (Mathf.Abs(isoX) > 0.01f)
+            spr.flipX = isoX < 0;
 
-        //if (anim != null)
-        //    anim.SetFloat("Speed", move.sqrMagnitude);
+
+        bool moving = rb.linearVelocity.sqrMagnitude > 0.01f;
+        anim.SetBool("isMoving", moving);
+
+        anim.SetBool("isBack", facingVertical == FacingVertical.Back);
+
+
     }
 
     //private void HandleJump()
@@ -306,6 +325,8 @@ public class Player : MonoBehaviour
                 {
                     mask = existingMage;
                     mask.enabled = true;
+                    anim.runtimeAnimatorController = mageAnimator;
+
                 }
                 else
                 {
@@ -320,6 +341,8 @@ public class Player : MonoBehaviour
                 {
                     mask = existingRanged;
                     mask.enabled = true;
+                    anim.runtimeAnimatorController = rangedAnimator;
+
                 }
                 else
                 {
@@ -334,6 +357,8 @@ public class Player : MonoBehaviour
                 {
                     mask = existingMelee;
                     mask.enabled = true;
+                    anim.runtimeAnimatorController = meleeAnimator;
+
                 }
                 else
                 {

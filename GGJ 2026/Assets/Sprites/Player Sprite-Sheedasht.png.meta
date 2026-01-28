@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: af50660bd9d50a0408438d5d933d505a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1793951244396643860
+    second: Player Sprite-Sheedasht_0
+  - first:
+      213: 4863539336021648814
+    second: Player Sprite-Sheedasht_1
+  - first:
+      213: 149191707512642978
+    second: Player Sprite-Sheedasht_2
+  - first:
+      213: 4414395061762946008
+    second: Player Sprite-Sheedasht_3
+  - first:
+      213: -931869755568310205
+    second: Player Sprite-Sheedasht_4
+  - first:
+      213: -7915483608927159954
+    second: Player Sprite-Sheedasht_5
+  - first:
+      213: -8596066432930620792
+    second: Player Sprite-Sheedasht_6
+  - first:
+      213: -1673220601302169664
+    second: Player Sprite-Sheedasht_7
+  - first:
+      213: -4843851611520630360
+    second: Player Sprite-Sheedasht_8
+  - first:
+      213: -5695171954004875686
+    second: Player Sprite-Sheedasht_9
+  - first:
+      213: -3598490851106266205
+    second: Player Sprite-Sheedasht_10
+  - first:
+      213: 441543095770484708
+    second: Player Sprite-Sheedasht_11
+  - first:
+      213: 5911393545258466847
+    second: Player Sprite-Sheedasht_12
+  - first:
+      213: 7133211891416220168
+    second: Player Sprite-Sheedasht_13
+  - first:
+      213: -5953313199501275719
+    second: Player Sprite-Sheedasht_14
+  - first:
+      213: 4221282582260249273
+    second: Player Sprite-Sheedasht_15
+  - first:
+      213: 1870210292821735812
+    second: Player Sprite-Sheedasht_16
+  - first:
+      213: 8841729468172845886
+    second: Player Sprite-Sheedasht_17
+  - first:
+      213: 2660438521897235549
+    second: Player Sprite-Sheedasht_18
+  - first:
+      213: 6291470208939604726
+    second: Player Sprite-Sheedasht_19
+  - first:
+      213: 507919280026883077
+    second: Player Sprite-Sheedasht_20
+  - first:
+      213: 2697401735579642869
+    second: Player Sprite-Sheedasht_21
+  - first:
+      213: 6597239610462040447
+    second: Player Sprite-Sheedasht_22
+  - first:
+      213: -278668454662025571
+    second: Player Sprite-Sheedasht_23
+  - first:
+      213: 252704554867612798
+    second: Player Sprite-Sheedasht_24
+  - first:
+      213: -360353270003961259
+    second: Player Sprite-Sheedasht_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_0
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 306
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 416c1aae62565e810800000000000000
+      internalID: 1793951244396643860
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_1
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 306
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea5a5ba0243ce7340800000000000000
+      internalID: 4863539336021648814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_2
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 246
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ad99b94119021200800000000000000
+      internalID: 149191707512642978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_3
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 246
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d37e929be4134d30800000000000000
+      internalID: 4414395061762946008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_4
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 177
+        width: 15
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 348bb6205655113f0800000000000000
+      internalID: -931869755568310205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_5
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 176
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e693870889d862290800000000000000
+      internalID: -7915483608927159954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_6
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88ad2878f13a4b880800000000000000
+      internalID: -8596066432930620792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_7
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 163
+        width: 14
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c7c48c6ab687c8e0800000000000000
+      internalID: -1673220601302169664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_8
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 175
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a10c968f9e27ccb0800000000000000
+      internalID: -4843851611520630360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_9
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 175
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a56a5ca384fa6f0b0800000000000000
+      internalID: -5695171954004875686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_10
+      rect:
+        serializedVersion: 2
+        x: 802
+        y: 177
+        width: 15
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a36154f2a79f0ec0800000000000000
+      internalID: -3598490851106266205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_11
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 176
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ef0d603b1da02600800000000000000
+      internalID: 441543095770484708
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_12
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1efaa80c1d790250800000000000000
+      internalID: 5911393545258466847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_13
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 163
+        width: 14
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 802c47ffb624ef260800000000000000
+      internalID: 7133211891416220168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_14
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 175
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bd0513ef25916da0800000000000000
+      internalID: -5953313199501275719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_15
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 175
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b27a2ca422059a30800000000000000
+      internalID: 4221282582260249273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_16
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 113
+        width: 17
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4893bee3a5254f910800000000000000
+      internalID: 1870210292821735812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_17
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 112
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e33cb861b1224ba70800000000000000
+      internalID: 8841729468172845886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_18
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 114
+        width: 25
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5433747db6cbe420800000000000000
+      internalID: 2660438521897235549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_19
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 112
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa3cc642dacf4750800000000000000
+      internalID: 6291470208939604726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_20
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 48
+        width: 14
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5041394e4ed7c0700800000000000000
+      internalID: 507919280026883077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_21
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 52
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fb2fb946981f6520800000000000000
+      internalID: 2697401735579642869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_22
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 49
+        width: 16
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f71f9b7d87a1e8b50800000000000000
+      internalID: 6597239610462040447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_23
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 48
+        width: 14
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9e43c55488f12cf0800000000000000
+      internalID: -278668454662025571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_24
+      rect:
+        serializedVersion: 2
+        x: 925
+        y: 52
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7cd10a2479c18300800000000000000
+      internalID: 252704554867612798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Sheedasht_25
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 49
+        width: 16
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55273c33c94cffaf0800000000000000
+      internalID: -360353270003961259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Player Sprite-Sheedasht_0: 1793951244396643860
+      Player Sprite-Sheedasht_1: 4863539336021648814
+      Player Sprite-Sheedasht_10: -3598490851106266205
+      Player Sprite-Sheedasht_11: 441543095770484708
+      Player Sprite-Sheedasht_12: 5911393545258466847
+      Player Sprite-Sheedasht_13: 7133211891416220168
+      Player Sprite-Sheedasht_14: -5953313199501275719
+      Player Sprite-Sheedasht_15: 4221282582260249273
+      Player Sprite-Sheedasht_16: 1870210292821735812
+      Player Sprite-Sheedasht_17: 8841729468172845886
+      Player Sprite-Sheedasht_18: 2660438521897235549
+      Player Sprite-Sheedasht_19: 6291470208939604726
+      Player Sprite-Sheedasht_2: 149191707512642978
+      Player Sprite-Sheedasht_20: 507919280026883077
+      Player Sprite-Sheedasht_21: 2697401735579642869
+      Player Sprite-Sheedasht_22: 6597239610462040447
+      Player Sprite-Sheedasht_23: -278668454662025571
+      Player Sprite-Sheedasht_24: 252704554867612798
+      Player Sprite-Sheedasht_25: -360353270003961259
+      Player Sprite-Sheedasht_3: 4414395061762946008
+      Player Sprite-Sheedasht_4: -931869755568310205
+      Player Sprite-Sheedasht_5: -7915483608927159954
+      Player Sprite-Sheedasht_6: -8596066432930620792
+      Player Sprite-Sheedasht_7: -1673220601302169664
+      Player Sprite-Sheedasht_8: -4843851611520630360
+      Player Sprite-Sheedasht_9: -5695171954004875686
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

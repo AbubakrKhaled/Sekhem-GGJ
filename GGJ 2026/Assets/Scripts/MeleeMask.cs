@@ -72,6 +72,12 @@ public class MeleeMask : BaseMask
         int currentDamage = baseDamage;
         float pushForce = 5f;
 
+        Animator anim = GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.SetTrigger("attack");
+        }
+
         // 3rd hit of combo is always a finisher (stronger)
         if (comboStage == 3)
         {
