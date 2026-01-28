@@ -15,15 +15,15 @@ public class Audiomanager : MonoBehaviour
     [Header("Audio Clips")]
     //public AudioClip footsteps1;
     //public AudioClip footsteps2;
-    public AudioClip jump;
-    public AudioClip dash;
+    //public AudioClip jump;
+    //public AudioClip dash;
     public AudioClip hound;
     public AudioClip mummy;
     public AudioClip sphinx;
     public AudioClip bow;
     public AudioClip sword;
     public AudioClip magic;
-    public AudioClip boss;
+    //public AudioClip boss;
 
     [Header("Soundtracks")]
     public AudioClip menuMusic;

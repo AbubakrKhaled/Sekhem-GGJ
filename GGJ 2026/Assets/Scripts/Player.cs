@@ -217,8 +217,8 @@ public class Player : MonoBehaviour
                 // Can dash - teleport to target (same floor)
                 Vector3 targetPos = target.Value;
                 StartCoroutine(DashToTarget(new Vector2(targetPos.x, targetPos.y)));
-                if (Audiomanager.Instance != null)
-                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.dash);
+                //if (Audiomanager.Instance != null)
+                //    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.dash);
 
             }
             else
