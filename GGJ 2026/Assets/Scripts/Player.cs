@@ -312,6 +312,37 @@ public class Player : MonoBehaviour
                     mask = gameObject.AddComponent<MageMask>();
                 }
                 Debug.Log("Mage Mask Applied");
+<<<<<<< Updated upstream
+=======
+                break;
+
+            case MaskType.Ranged:
+                RangerMask existingRanged = GetComponent<RangerMask>();
+                if (existingRanged != null)
+                {
+                    mask = existingRanged;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<RangerMask>();
+                }
+                Debug.Log("Ranged Mask Applied");
+                break;
+
+            case MaskType.Melee:
+                MeleeMask existingMelee = GetComponent<MeleeMask>();
+                if (existingMelee != null)
+                {
+                    mask = existingMelee;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<MeleeMask>();
+                }
+                Debug.Log("Melee Mask Applied");
+>>>>>>> Stashed changes
                 break;
 
             case MaskType.Ranged:
