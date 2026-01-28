@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8216388984794762370}
   - component: {fileID: 5945054320229219610}
   - component: {fileID: 4583319860123255038}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: mummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4972421274294278593}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: e9f058d7a3a1c324d9e9fbdcaeec3a75, type: 2}
   m_CullingMode: 0
