@@ -446,7 +446,7 @@ MonoBehaviour:
   magic: {fileID: 8300000, guid: ceafbbd9d2d0da444a5556af46c0ca13, type: 3}
   menuMusic: {fileID: 8300000, guid: 15107300aa056904880b4c0a4813293a, type: 3}
   levelMusic: {fileID: 8300000, guid: e17f070773d563b4aa9d68a39800d367, type: 3}
-  bossMusic: {fileID: 0}
+  bossMusic: {fileID: 8300000, guid: 7b6cb6c11abe9b44d8dedffb68be6408, type: 3}
 --- !u!1 &282722750
 GameObject:
   m_ObjectHideFlags: 0

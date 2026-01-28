@@ -70,12 +70,12 @@ public class Audiomanager : MonoBehaviour
         AudioClip target = null;
 
         // Menu scenes
-        if (buildIndex == 0 || buildIndex == 1)
+        if (buildIndex == 1 || buildIndex == 2)
         {
             target = menuMusic;
         }
         // Gameplay scenes
-        else if (buildIndex >= 2 && buildIndex <= 4)
+        else if (buildIndex >= 3 && buildIndex <= 5)
         {
             target = levelMusic;
         }
