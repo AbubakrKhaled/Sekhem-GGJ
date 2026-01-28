@@ -36,9 +36,16 @@ public abstract class Mob : Enemies
         // --- LEFT / RIGHT ---
         if (Mathf.Abs(toPlayer.x) > 0.01f)
         {
-            Vector3 scale = transform.localScale;
-            scale.x = Mathf.Sign(toPlayer.x) * Mathf.Abs(scale.x);
-            transform.localScale = scale;
+            float targetSign = Mathf.Sign(toPlayer.x);
+            float currentSign = Mathf.Sign(transform.localScale.x);
+            
+            // Only flip if direction actually changed
+            if (targetSign != currentSign)
+            {
+                Vector3 scale = transform.localScale;
+                scale.x = targetSign * Mathf.Abs(scale.x);
+                transform.localScale = scale;
+            }
         }
 
         // --- ANIMATION ---

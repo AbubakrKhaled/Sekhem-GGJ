@@ -74,10 +74,11 @@ public class RangerMask : BaseMask
                 Vector2 direction = new Vector2(dirX, dirY).normalized;
 
 
-                Animator anim = GetComponent<Animator>();
-                if (anim != null)
+                // Trigger player animation
+                Player player = GetComponent<Player>();
+                if (player != null && player.anim != null)
                 {
-                    anim.SetTrigger("attack");
+                    player.anim.SetTrigger("attack");
                 }
 
                 // Spawn arrow
