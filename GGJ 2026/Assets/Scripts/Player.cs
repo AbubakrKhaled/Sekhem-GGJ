@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum MaskType { Melee, Ranged, Mage }
@@ -42,6 +43,14 @@ public class Player : MonoBehaviour
     private LevelMap map;
     private Vector2 facingDir = Vector2.right;
     private int currentFloor = 0;
+    
+    // Jump zone tracking (simple collider-based system)
+    private HashSet<int> jumpZonesInRange = new HashSet<int>();
+    private bool isJumping = false;
+    private bool isGrounded = true;
+    
+    [Header("Jump Animation")]
+    public Sprite jumpSprite; // PLACEHOLDER: Assign jump animation sprite from art team
 
 
     void Start()
@@ -94,6 +103,22 @@ public class Player : MonoBehaviour
         HandleDash();
         HandleAttacks();
         HandleDrop();
+    }
+    
+    void OnGUI()
+    {
+        // DEBUG: Show current floor in top-left corner
+        GUIStyle style = new GUIStyle();
+        style.fontSize = 24;
+        style.fontStyle = FontStyle.Bold;
+        style.normal.textColor = Color.yellow;
+        
+        GUI.Label(new Rect(10, 10, 300, 40), $"Floor: {currentFloor}", style);
+        
+        // Also show grounded status
+        style.fontSize = 18;
+        style.normal.textColor = isGrounded ? Color.green : Color.red;
+        GUI.Label(new Rect(10, 45, 300, 30), $"{(isGrounded ? "Grounded" : "Airborne")}", style);
     }
 
     private void HandleMovement()
@@ -162,21 +187,106 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (!Input.GetKeyDown(KeyCode.Space)) return;
-        if (LevelMap.Instance == null) return;
-
-        if (!LevelMap.Instance.CanJumpUp(currentFloor, transform.position))
-            return;
-
-        currentFloor++;
-        currentFloor = Mathf.Clamp(currentFloor, 0, LevelMap.Instance.logicTilemaps.Length - 1);
-
-        // snap to grid
-        transform.position =
-            LevelMap.Instance.GetCurrentCellWorld(transform.position);
-
-        // visual height
+        // REMOVED - No manual jumping! Auto-hurdle on platform contact
+    }
+    
+    IEnumerator JumpAnimation(int targetFloor)
+    {
+        isJumping = true;
+        
+        int startFloor = currentFloor;
+        float floorHeight = 3.0f; // Y distance between floors
+        float targetY = targetFloor * floorHeight;
+        
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = new Vector3(startPos.x, targetY, startPos.z);
+        
+        float duration = 0.25f; // Quick hurdle
+        float elapsed = 0f;
+        float arcHeight = 1.5f; // Lower arc for hurdle feel
+        
+        // Switch to jump sprite
+        Sprite originalSprite = spr.sprite;
+        if (jumpSprite != null)
+        {
+            spr.sprite = jumpSprite;
+        }
+        
+        Debug.Log($"Auto-hurdling {startFloor} → {targetFloor}");
+        
+        // Animate arc
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            
+            // Lerp to target with arc
+            float currentY = Mathf.Lerp(startPos.y, targetY, t);
+            float arc = Mathf.Sin(t * Mathf.PI) * arcHeight;
+            
+            transform.position = new Vector3(
+                startPos.x,
+                currentY + arc,
+                startPos.z
+            );
+            
+            yield return null;
+        }
+        
+        // Snap to target
+        transform.position = targetPos;
+        
+        // Update floor
+        currentFloor = targetFloor;
         spr.sortingOrder = currentFloor * 10;
+        
+        // Restore sprite
+        if (originalSprite != null)
+        {
+            spr.sprite = originalSprite;
+        }
+        
+        // Sound
+        if (Audiomanager.Instance != null)
+        {
+            Audiomanager.Instance.PlaySFX(Audiomanager.Instance.jump);
+        }
+        
+        isJumping = false;
+        isGrounded = true;
+        
+        Debug.Log($"Landed floor {currentFloor}, Y={transform.position.y:F1}");
+    }
+    
+    // AUTO-HURDLE: Jump automatically when entering platform
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("JumpZone"))
+        {
+            jumpZonesInRange.Add(other.GetInstanceID());
+            
+            // Auto-hurdle when entering!
+            if (!isJumping)
+            {
+                // Determine direction
+                if (currentFloor < 2)
+                {
+                    StartCoroutine(JumpAnimation(currentFloor + 1));
+                }
+                else if (currentFloor > 0)
+                {
+                    StartCoroutine(JumpAnimation(currentFloor - 1));
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("JumpZone"))
+        {
+            jumpZonesInRange.Remove(other.GetInstanceID());
+        }
     }
 
 
@@ -212,6 +322,36 @@ public class Player : MonoBehaviour
                     Debug.Log("Dash failed, dropped to floor: " + currentFloor);
                 }
             }
+        }
+    }
+
+    // Duplicate methods removed - using auto-hurdle versions above
+    
+    // Ground check (prevents wall jumping)
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        // Check if any contact point is from below (player standing on something)
+        foreach (ContactPoint2D contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.5f) // Contact from below
+            {
+                if (!isGrounded)
+                {
+                    isGrounded = true;
+                    Debug.Log("Grounded!");
+                }
+                return;
+            }
+        }
+    }
+    
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // Check if we're leaving ground (not just hitting a wall)
+        if (isGrounded)
+        {
+            isGrounded = false;
+            Debug.Log("Airborne");
         }
     }
 
