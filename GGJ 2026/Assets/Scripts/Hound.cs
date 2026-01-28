@@ -34,6 +34,9 @@ public class Hound : Mob
                 hp.TakeDamage((int)currentDamage, hitDirection);
                 
                 Debug.Log("hound bit player for " + currentDamage);
+                if (Audiomanager.Instance != null)
+                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.hound);
+
             }
         }
     }

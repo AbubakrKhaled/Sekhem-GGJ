@@ -63,24 +63,27 @@ public class Player : MonoBehaviour
 
         // --- TEST MODE FIX ---
         // Instead of asking GameSession (which is empty), we FORCE the Mage Mask.
-        MageMask testMask = GetComponent<MageMask>();
-        if (testMask != null)
-        {
-            mask = testMask;
-            mask.enabled = true;
-            Debug.Log("TEST MODE: Mage Mask Forced ON.");
-        }
-        else
-        {
-            Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
-        }
-        MeleeMask testMask2 = GetComponent<MeleeMask>(); // Check for Melee first
-        if (testMask2 != null)
-        {
-            mask = testMask2;
-            mask.enabled = true;
-            Debug.Log("TEST MODE: Melee Mask Forced ON.");
-        }
+        //MageMask testMask = GetComponent<MageMask>();
+        //if (testMask != null)
+        //{
+        //    mask = testMask;
+        //    mask.enabled = true;
+        //    Debug.Log("TEST MODE: Mage Mask Forced ON.");
+        //}
+        //else
+        //{
+        //    Debug.LogError("TEST MODE FAIL: No MageMask script found on Player!");
+        //}
+        //MeleeMask testMask2 = GetComponent<MeleeMask>(); // Check for Melee first
+        //if (testMask != null)
+        //{
+        //    mask = testMask2;
+        //    mask.enabled = true;
+        //    Debug.Log("TEST MODE: Melee Mask Forced ON.");
+        //}
+
+        ApplyMask(GameSession.SelectedMask);
+
     }
 
     void Update()
@@ -130,25 +133,53 @@ public class Player : MonoBehaviour
 
         // Flip sprite
         if (move.x != 0)
-            spr.flipX = move.x < 0;
+            spr.flipX = move.x > 0;
 
         //if (anim != null)
         //    anim.SetFloat("Speed", move.sqrMagnitude);
     }
 
+    //private void HandleJump()
+    //{
+    //    if (LevelMap.Instance == null)
+    //    {
+    //        Debug.LogError("LevelMap.Instance is NULL");
+    //        return;
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Space))
+    //    {
+    //        if (map == null) return;
+
+    //        if (map.CanJumpUp(currentFloor, transform.position))
+    //        {
+    //            currentFloor++;
+    //            Debug.Log("Jumped to floor: " + currentFloor);
+    //            if (Audiomanager.Instance != null)
+    //                Audiomanager.Instance.PlaySFX(Audiomanager.Instance.jump);
+    //        }
+    //    }
+    //}
+
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (map == null) return;
+        if (!Input.GetKeyDown(KeyCode.Space)) return;
+        if (LevelMap.Instance == null) return;
 
-            if (map.CanJumpUp(currentFloor, transform.position))
-            {
-                currentFloor++;
-                Debug.Log("Jumped to floor: " + currentFloor);
-            }
-        }
+        if (!LevelMap.Instance.CanJumpUp(currentFloor, transform.position))
+            return;
+
+        currentFloor++;
+        currentFloor = Mathf.Clamp(currentFloor, 0, LevelMap.Instance.logicTilemaps.Length - 1);
+
+        // snap to grid
+        transform.position =
+            LevelMap.Instance.GetCurrentCellWorld(transform.position);
+
+        // visual height
+        spr.sortingOrder = currentFloor * 10;
     }
+
+
 
     private void HandleDash()
     {
@@ -167,6 +198,9 @@ public class Player : MonoBehaviour
                 // Can dash - teleport to target (same floor)
                 Vector3 targetPos = target.Value;
                 StartCoroutine(DashToTarget(new Vector2(targetPos.x, targetPos.y)));
+                if (Audiomanager.Instance != null)
+                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.dash);
+
             }
             else
             {
@@ -222,7 +256,7 @@ public class Player : MonoBehaviour
 
         // Disable collision with enemies (2D version)
         int playerLayer = gameObject.layer;
-        int enemyLayer = LayerMask.NameToLayer("Enemy");
+        int enemyLayer = LayerMask.NameToLayer("Enemies");
         Physics2D.IgnoreLayerCollision(playerLayer, enemyLayer, true);
 
         // Teleport
@@ -277,6 +311,21 @@ public class Player : MonoBehaviour
                 {
                     mask = gameObject.AddComponent<MageMask>();
                 }
+                Debug.Log("Mage Mask Applied");
+                break;
+
+            case MaskType.Ranged:
+                RangerMask existingRanged = GetComponent<RangerMask>();
+                if (existingRanged != null)
+                {
+                    mask = existingRanged;
+                    mask.enabled = true;
+                }
+                else
+                {
+                    mask = gameObject.AddComponent<RangerMask>();
+                }
+                Debug.Log("Ranged Mask Applied");
                 break;
 
             case MaskType.Melee:
@@ -290,20 +339,9 @@ public class Player : MonoBehaviour
                 {
                     mask = gameObject.AddComponent<MeleeMask>();
                 }
+                Debug.Log("Melee Mask Applied");
                 break;
-
-            case MaskType.Ranged:
-                RangerMask existingRanger = GetComponent<RangerMask>();
-                if (existingRanger != null)
-                {
-                    mask = existingRanger;
-                    mask.enabled = true;
-                }
-                else
-                {
-                    mask = gameObject.AddComponent<RangerMask>();
-                }
-                break;
+            
         }
     }
 }

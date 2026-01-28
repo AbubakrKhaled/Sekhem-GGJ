@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class    MeleeMask : BaseMask
+public class MeleeMask : BaseMask
 {
     [Header("Combo Settings")]
     [SerializeField] private float comboWindow = 0.8f;

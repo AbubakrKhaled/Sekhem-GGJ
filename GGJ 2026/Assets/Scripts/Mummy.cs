@@ -34,6 +34,9 @@ public class Mummy : Mob
                 hp.TakeDamage((int)currentDamage, direction);
                 
                 Debug.Log("mummy hit player!");
+                if (Audiomanager.Instance != null)
+                    Audiomanager.Instance.PlaySFX(Audiomanager.Instance.mummy);
+
             }
         }  
     }
