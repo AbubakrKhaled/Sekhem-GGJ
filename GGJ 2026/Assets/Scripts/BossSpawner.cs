@@ -18,6 +18,15 @@ public class BossSpawner : MonoBehaviour
         // safety check to prevent crashes
         if (bossPrefab != null && spawnPoint != null)
         {
+            // Disable all enemy spawners (Unity 6 safe)
+            EnemySpawner[] allSpawners =
+                FindObjectsByType<EnemySpawner>(FindObjectsSortMode.None);
+
+            foreach (EnemySpawner enemySpawner in allSpawners)
+            {
+                enemySpawner.enabled = false;
+            }
+
             Instantiate(bossPrefab, spawnPoint.position, Quaternion.identity);
             Debug.Log("BOSS SPAWNED: " + bossPrefab.name);
             EnemySpawner spawner = FindFirstObjectByType<EnemySpawner>();

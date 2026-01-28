@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5289933341894345164}
   - component: {fileID: 8216388984794762370}
   - component: {fileID: 5945054320229219610}
+  - component: {fileID: 4583319860123255038}
   m_Layer: 0
   m_Name: mummy
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 2192450021786810173, guid: 685eb17bc309a6f44ab8ce29dbd970d6, type: 3}
+  m_Sprite: {fileID: 7301939077581686594, guid: 1e9640ed8361e5242a0a0d86906bc090, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +153,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.11, y: 0.3}
+    oldSize: {x: 0.15, y: 0.25}
     newSize: {x: 0.11, y: 0.3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -194,3 +195,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &4583319860123255038
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4972421274294278593}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e9f058d7a3a1c324d9e9fbdcaeec3a75, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

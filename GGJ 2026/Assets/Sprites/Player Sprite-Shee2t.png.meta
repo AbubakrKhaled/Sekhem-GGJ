@@ -1,0 +1,819 @@
+fileFormatVersion: 2
+guid: fa0b895c810ed194287e274c758e23a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8532722610282458248
+    second: Player Sprite-Shee2t_0
+  - first:
+      213: -3552758742993708876
+    second: Player Sprite-Shee2t_1
+  - first:
+      213: -4799263200757765563
+    second: Player Sprite-Shee2t_2
+  - first:
+      213: -6478256230218896028
+    second: Player Sprite-Shee2t_3
+  - first:
+      213: -3677806706610980561
+    second: Player Sprite-Shee2t_4
+  - first:
+      213: -1143524280955092340
+    second: Player Sprite-Shee2t_5
+  - first:
+      213: -4402682396324374820
+    second: Player Sprite-Shee2t_6
+  - first:
+      213: -6995899212589872529
+    second: Player Sprite-Shee2t_7
+  - first:
+      213: 8401112231988224063
+    second: Player Sprite-Shee2t_8
+  - first:
+      213: 3405744230514279936
+    second: Player Sprite-Shee2t_9
+  - first:
+      213: 5962279783958914277
+    second: Player Sprite-Shee2t_10
+  - first:
+      213: -1548174376163750525
+    second: Player Sprite-Shee2t_11
+  - first:
+      213: 4777941762904565032
+    second: Player Sprite-Shee2t_12
+  - first:
+      213: -5170723563204362441
+    second: Player Sprite-Shee2t_13
+  - first:
+      213: -6904999617667347623
+    second: Player Sprite-Shee2t_14
+  - first:
+      213: 7960166706894701757
+    second: Player Sprite-Shee2t_15
+  - first:
+      213: -2913089958669348868
+    second: Player Sprite-Shee2t_16
+  - first:
+      213: 8266310132874928177
+    second: Player Sprite-Shee2t_17
+  - first:
+      213: 3529563376884864683
+    second: Player Sprite-Shee2t_18
+  - first:
+      213: -2685865601691388171
+    second: Player Sprite-Shee2t_19
+  - first:
+      213: -3602421653584825910
+    second: Player Sprite-Shee2t_20
+  - first:
+      213: 1301162511361410804
+    second: Player Sprite-Shee2t_21
+  - first:
+      213: 1225915470312192588
+    second: Player Sprite-Shee2t_22
+  - first:
+      213: 1838857568523483398
+    second: Player Sprite-Shee2t_23
+  - first:
+      213: -523213287369352843
+    second: Player Sprite-Shee2t_24
+  - first:
+      213: 5296282275465080858
+    second: Player Sprite-Shee2t_25
+  - first:
+      213: -3433814004632371906
+    second: Player Sprite-Shee2t_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_0
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 306
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88c64d871025a6670800000000000000
+      internalID: 8532722610282458248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_1
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 306
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b8523f1fb012bec0800000000000000
+      internalID: -3552758742993708876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_2
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 306
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54aaa37eb87956db0800000000000000
+      internalID: -4799263200757765563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_3
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 246
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46d67d9284c9816a0800000000000000
+      internalID: -6478256230218896028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_4
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 246
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2937e3494ec5fcc0800000000000000
+      internalID: -3677806706610980561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_5
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 246
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8243a1a9b26120f0800000000000000
+      internalID: -1143524280955092340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_6
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 176
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd6583cdfa786e2c0800000000000000
+      internalID: -4402682396324374820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_7
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6a45256bb299ee90800000000000000
+      internalID: -6995899212589872529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_8
+      rect:
+        serializedVersion: 2
+        x: 365
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f30e8d1601fb69470800000000000000
+      internalID: 8401112231988224063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_9
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 175
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 006c3af4552a34f20800000000000000
+      internalID: 3405744230514279936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_10
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 175
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e42d5ebfd54eb250800000000000000
+      internalID: 5962279783958914277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_11
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 176
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38dc5628b97c38ae0800000000000000
+      internalID: -1548174376163750525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_12
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8252e6ff7b8ae4240800000000000000
+      internalID: 4777941762904565032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_13
+      rect:
+        serializedVersion: 2
+        x: 935
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73f367f9056ed38b0800000000000000
+      internalID: -5170723563204362441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_14
+      rect:
+        serializedVersion: 2
+        x: 969
+        y: 175
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95bcab69e638c20a0800000000000000
+      internalID: -6904999617667347623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_15
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 175
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db48955f171387e60800000000000000
+      internalID: 7960166706894701757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_16
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 176
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cff81c6ed10a297d0800000000000000
+      internalID: -2913089958669348868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_17
+      rect:
+        serializedVersion: 2
+        x: 1472
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 130e831e445d7b270800000000000000
+      internalID: 8266310132874928177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_18
+      rect:
+        serializedVersion: 2
+        x: 1505
+        y: 175
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba6537bd0378bf030800000000000000
+      internalID: 3529563376884864683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_19
+      rect:
+        serializedVersion: 2
+        x: 1539
+        y: 175
+        width: 16
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f67eb03773e9bad0800000000000000
+      internalID: -2685865601691388171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_20
+      rect:
+        serializedVersion: 2
+        x: 1596
+        y: 175
+        width: 14
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1b6eea790a10ec0800000000000000
+      internalID: -3602421653584825910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_21
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 112
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f680c40968ae0210800000000000000
+      internalID: 1301162511361410804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_22
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 112
+        width: 11
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4a3d9400a3530110800000000000000
+      internalID: 1225915470312192588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_23
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 112
+        width: 14
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6097164473fe48910800000000000000
+      internalID: 1838857568523483398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_24
+      rect:
+        serializedVersion: 2
+        x: 868
+        y: 112
+        width: 13
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 579d598894c2db8f0800000000000000
+      internalID: -523213287369352843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_25
+      rect:
+        serializedVersion: 2
+        x: 1406
+        y: 129
+        width: 16
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a103b4b2bac208940800000000000000
+      internalID: 5296282275465080858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Player Sprite-Shee2t_26
+      rect:
+        serializedVersion: 2
+        x: 1437
+        y: 130
+        width: 15
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3d302d1b54a850d0800000000000000
+      internalID: -3433814004632371906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Player Sprite-Shee2t_0: 8532722610282458248
+      Player Sprite-Shee2t_1: -3552758742993708876
+      Player Sprite-Shee2t_10: 5962279783958914277
+      Player Sprite-Shee2t_11: -1548174376163750525
+      Player Sprite-Shee2t_12: 4777941762904565032
+      Player Sprite-Shee2t_13: -5170723563204362441
+      Player Sprite-Shee2t_14: -6904999617667347623
+      Player Sprite-Shee2t_15: 7960166706894701757
+      Player Sprite-Shee2t_16: -2913089958669348868
+      Player Sprite-Shee2t_17: 8266310132874928177
+      Player Sprite-Shee2t_18: 3529563376884864683
+      Player Sprite-Shee2t_19: -2685865601691388171
+      Player Sprite-Shee2t_2: -4799263200757765563
+      Player Sprite-Shee2t_20: -3602421653584825910
+      Player Sprite-Shee2t_21: 1301162511361410804
+      Player Sprite-Shee2t_22: 1225915470312192588
+      Player Sprite-Shee2t_23: 1838857568523483398
+      Player Sprite-Shee2t_24: -523213287369352843
+      Player Sprite-Shee2t_25: 5296282275465080858
+      Player Sprite-Shee2t_26: -3433814004632371906
+      Player Sprite-Shee2t_3: -6478256230218896028
+      Player Sprite-Shee2t_4: -3677806706610980561
+      Player Sprite-Shee2t_5: -1143524280955092340
+      Player Sprite-Shee2t_6: -4402682396324374820
+      Player Sprite-Shee2t_7: -6995899212589872529
+      Player Sprite-Shee2t_8: 8401112231988224063
+      Player Sprite-Shee2t_9: 3405744230514279936
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -32,7 +32,13 @@ public class Hound : Mob
                 // 2. send damage and direction
                 // this ensures the player gets knocked back the right way
                 hp.TakeDamage((int)currentDamage, hitDirection);
-                
+
+                if (anim != null)
+                {
+                    anim.SetTrigger("attack");
+                }
+
+
                 Debug.Log("hound bit player for " + currentDamage);
                 if (Audiomanager.Instance != null)
                     Audiomanager.Instance.PlaySFX(Audiomanager.Instance.hound);

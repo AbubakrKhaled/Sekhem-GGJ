@@ -10,12 +10,14 @@ public abstract class BaseMask : MonoBehaviour
 
     protected virtual void Start()
     {
+        Animator anim = GetComponent<Animator>();
+
         // automatically adjust difficulty based on which level/scene we are in
         switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 2: fragmentsRequired = 3; break;
-            case 3: fragmentsRequired = 6; break;
-            case 4: fragmentsRequired = 9; break;
+            case 3: fragmentsRequired = 3; break;
+            case 4: fragmentsRequired = 3; break;
         }
     }
 

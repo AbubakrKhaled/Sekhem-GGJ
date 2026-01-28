@@ -32,7 +32,12 @@ public class Mummy : Mob
                 // 2. deal damage
                 // convert damage to int because player health uses integers
                 hp.TakeDamage((int)currentDamage, direction);
-                
+                if (anim != null)
+                {
+                    anim.SetTrigger("attack");
+                }
+
+
                 Debug.Log("mummy hit player!");
                 if (Audiomanager.Instance != null)
                     Audiomanager.Instance.PlaySFX(Audiomanager.Instance.mummy);
