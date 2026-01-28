@@ -1,143 +1,125 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MageMask : BaseMask
 {
-    Player player;
+    [Header("Prefabs")]
+    public GameObject stonePillarPrefab;     // Level 1: Earth
+    public GameObject waterProjectilePrefab; // Level 2: Water
+    public GameObject fireballPrefab;        // Level 3: Fire
 
-    [Header("Level 1 - Earth")] 
-    // drag the stone pillar prefab here
-    public GameObject stonePillarPrefab;
-    
-    // how wide the circle of pillars will be
-    public float pillarRadius = 2.0f; 
-    // how many pillars spawn in the ring (6 makes a nice hexagon shape)
-    public int pillarCount = 6;
-
-    // --- cooldown settings ---
-    // wait 4 seconds between attacks
+    [Header("Dynamic Stats")]
     public float abilityCooldown = 4f; 
-    // keeps track of when we last cast the spell
+    public float damage = 10f;
+    
+    // tracks which spell is currently selected (1=earth, 2=water, 3=fire)
+    private int selectedElement = 1; 
     private float lastCastTime = -10f; 
-
-    [Header("Secondary Stats")]
-    public float earthPushRadius = 2.5f;
-    public float earthPushForce = 8f;
-    public float earthPushDamage = 5f;
 
     protected override void Start()
     {
         base.Start();
-        // find the player script so we know where to spawn things
-        player = GetComponent<Player>();
-        
-        // auto-fix the level if it defaults to 0
-        if(maskLevel == 0) maskLevel = 1; 
+        if(maskLevel == 0) maskLevel = 1;
+
+        // if loading into a later level (scene 3 or 4), auto-equip the best element
+        if (maskLevel >= 2) selectedElement = 2;
     }
 
-    public override void CastPrimary()
+    private void Update()
     {
-        // 1. check cooldown
-        // if current time is less than (last time + 4 seconds), we must wait
-        if (Time.time < lastCastTime + abilityCooldown)
+        // --- weapon switching input ---
+        // only allow switching if we have unlocked higher levels
+        if (maskLevel >= 2)
         {
-            Debug.Log("mage mask on cooldown! wait...");
-            return;
-        }
-
-        // 2. set cooldown timer
-        // save the time right now so we can't fire again instantly
-        lastCastTime = Time.time;
-
-        // 3. cast spell
-        switch (maskLevel)
-        {
-            case 1: EarthPillars(); break;
-            case 2: MudSpike(); break;
-            case 3: Fireball(); break;
-        }
-    }
-
-
-    protected override void OnMaskUpgraded()
-    {
-        Debug.Log("mage upgraded to level " + maskLevel);
-    }
-
-    // --- spells ---
-    void EarthPillars()
-    {
-        // prevent errors if the prefab is missing
-        if (stonePillarPrefab == null) return;
-
-        // start at the player's position
-        Vector2 startPos = transform.position;
-
-        // --- circular math logic ---
-        // divide 360 degrees by the number of pillars to get even spacing
-        // e.g. 360 / 6 = 60 degrees between each pillar
-        float angleStep = 360f / pillarCount;
-
-        for (int i = 0; i < pillarCount; i++)
-        {
-            // 1. calculate the angle for this specific pillar
-            float angle = i * angleStep;
-            
-            // 2. convert degrees to radians (math needs radians for sin/cos)
-            float radian = angle * Mathf.Deg2Rad;
-
-            // 3. calculate x and y offset using trigonometry
-            float x = Mathf.Cos(radian) * pillarRadius;
-            float y = Mathf.Sin(radian) * pillarRadius;
-
-            // 4. set the final spawn position relative to the player
-            Vector2 spawnPos = startPos + new Vector2(x, y);
-
-            // create the pillar
-            Instantiate(stonePillarPrefab, spawnPos, Quaternion.identity);
-        }
-        
-        Debug.Log("earth pillars cast in a circle!");
-    }
-
-    void EarthPush()
-    {
-        // find all colliders inside the blast radius
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, earthPushRadius);
-
-        foreach (var hit in hits)
-        {
-            // check if the object is an enemy
-            Enemies enemy = hit.GetComponent<Enemies>();
-            if (enemy == null) continue;
-
-            // deal damage
-            enemy.TakeDamage(earthPushDamage);
-
-            // apply physics knockback
-            Rigidbody2D rb = hit.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetMouseButtonDown(1))
             {
-                // calculate direction from player to enemy
-                Vector2 dir = (hit.transform.position - transform.position).normalized;
-                
-                // stop their movement first so the push is strong
-                rb.linearVelocity = Vector2.zero; 
-                
-                // push them away
-                rb.AddForce(dir * earthPushForce, ForceMode2D.Impulse);
+                SwitchElement();
             }
         }
     }
 
-    // draws a yellow circle in the editor so we can see the range
-    private void OnDrawGizmosSelected()
+    void SwitchElement()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, earthPushRadius);
+        selectedElement++;
+
+        // loop back to 1 if we exceed our current unlocked level
+        if (selectedElement > maskLevel)
+        {
+            selectedElement = 1;
+        }
+
+        Debug.Log("switched element to: " + selectedElement);
     }
 
-    void MudSpike() { Debug.Log("mud spike"); }
-    void MudPool() { Debug.Log("mud pool"); }
-    void Fireball() { Debug.Log("fireball"); }
-    void FlameBurst() { Debug.Log("flame burst"); }
+    public override void CastPrimary()
+    {
+        if (Time.time < lastCastTime + abilityCooldown) return;
+
+        lastCastTime = Time.time;
+
+        // cast the currently selected element
+        switch (selectedElement)
+        {
+            case 1: CastEarthPillars(); break;
+            case 2: CastWaterAttack(); break;
+            case 3: CastFireball(); break;
+            default: CastEarthPillars(); break;
+        }
+    }
+
+    protected override void OnMaskUpgraded()
+    {
+        Debug.Log("mage upgraded! new element unlocked & stats buffed!");
+
+        // 1. buff stats
+        abilityCooldown = Mathf.Max(0.5f, abilityCooldown - 0.5f);
+        damage += 5f;
+
+        // 2. auto-equip the new element
+        selectedElement = maskLevel;
+        if (selectedElement > 3) selectedElement = 3;
+    }
+
+    // --- spells ---
+    void CastEarthPillars()
+    {
+        if (stonePillarPrefab == null) return;
+        
+        int count = 6 + maskLevel; 
+        float angleStep = 360f / count;
+        
+        for (int i = 0; i < count; i++)
+        {
+            float angle = i * angleStep * Mathf.Deg2Rad;
+            Vector2 spawnPos = (Vector2)transform.position + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * 2f;
+            Instantiate(stonePillarPrefab, spawnPos, Quaternion.identity);
+        }
+    }
+
+    void CastWaterAttack()
+    {
+        if (waterProjectilePrefab == null) return;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = (mousePos - transform.position).normalized;
+        
+        GameObject waterObj = Instantiate(waterProjectilePrefab, transform.position, Quaternion.identity);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        waterObj.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        Rigidbody2D rb = waterObj.GetComponent<Rigidbody2D>();
+        if (rb != null) rb.linearVelocity = dir * 12f;
+    }
+
+    void CastFireball()
+    {
+        if (fireballPrefab == null) return;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 dir = (mousePos - transform.position).normalized;
+
+        GameObject fb = Instantiate(fireballPrefab, transform.position, Quaternion.identity);
+        Rigidbody2D rb = fb.GetComponent<Rigidbody2D>();
+        if (rb != null) rb.linearVelocity = dir * 10f;
+    }
 }

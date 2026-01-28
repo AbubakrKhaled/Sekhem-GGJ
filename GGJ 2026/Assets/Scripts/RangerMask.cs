@@ -4,15 +4,15 @@ public class RangerMask : BaseMask
 {
     [Header("Ranger Settings")]
     [SerializeField] private GameObject arrowPrefab;
-    [SerializeField] private float fireCooldown = 2.5f;
-    [SerializeField] private float arrowSpeed = 10f;
     [SerializeField] private float spawnOffset = 0.5f;
 
     [Header("Combat Stats")]
+    // these scale with level
+    [SerializeField] private float fireCooldown = 1.0f;
+    [SerializeField] private float arrowSpeed = 10f;
     [SerializeField] private int baseDamage = 8;
     [SerializeField] private float knockbackForce = 3f;
 
-    // Internal State
     private float lastFireTime = -10f;
     private SpriteRenderer playerSpr;
 
@@ -33,24 +33,28 @@ public class RangerMask : BaseMask
         {
             GameObject arrowObj = Instantiate(arrowPrefab, spawnPos, Quaternion.identity);
 
-            // Try to set up the arrow, but don't crash if script is missing
             ArrowProjectile arrowScript = arrowObj.GetComponent<ArrowProjectile>();
             if (arrowScript != null)
             {
-                int currentDamage = baseDamage + (maskLevel * 2);
-                arrowScript.Setup(dirX, arrowSpeed, currentDamage, knockbackForce);
+                // pass the current upgraded stats to the arrow
+                arrowScript.Setup(dirX, arrowSpeed, baseDamage, knockbackForce);
             }
 
             lastFireTime = Time.time;
-        }
-        else
-        {
-            Debug.LogError("RangerMask: No Arrow Prefab assigned in the Inspector!");
         }
     }
 
     protected override void OnMaskUpgraded()
     {
-        Debug.Log("Ranger Mask Leveled Up!");
+        Debug.Log("ranger mask stats scaled up!");
+
+        // 1. shoot faster
+        fireCooldown = Mathf.Max(0.3f, fireCooldown - 0.2f);
+
+        // 2. hit harder
+        baseDamage += 5;
+
+        // 3. faster arrows
+        arrowSpeed += 2f;
     }
 }
