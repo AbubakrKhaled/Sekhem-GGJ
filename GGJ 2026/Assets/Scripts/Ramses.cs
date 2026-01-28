@@ -129,6 +129,12 @@ public class Ramses : Boss
             hp.TakeDamage((int)currentDamage, hitDirection);
             
             Debug.Log($"Ramses II struck player for {currentDamage} damage!");
+
+            // Trigger animation
+            if (anim != null)
+            {
+                anim.SetTrigger("attack");
+            }
         }
     }
 
